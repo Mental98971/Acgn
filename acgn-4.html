@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACGN — Anime · Comics · Games · Novels</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070e;--bg2:#0b0b16;--s1:#111122;--s2:#161630;--s3:#1c1c38;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.14);--bdr3:rgba(255,255,255,.24);
+  --txt:#eeeaf8;--muted:#6e6e96;--faint:rgba(238,234,248,.11);
+  --anime:#ff4d6d;--anime-d:rgba(255,77,109,.13);--anime-g:rgba(255,77,109,.32);
+  --manhwa:#ff6b35;--manhwa-d:rgba(255,107,53,.13);
+  --manhua:#f59e0b;--manhua-d:rgba(245,158,11,.13);
+  --manga:#38bdf8;--manga-d:rgba(56,189,248,.13);
+  --comic:#a78bfa;--comic-d:rgba(167,139,250,.13);
+  --novel:#34d399;--novel-d:rgba(52,211,153,.13);
+  --game:#fbbf24;--game-d:rgba(251,191,36,.13);
+  --accent:#8b5cf6;--accent-d:rgba(139,92,246,.13);
+  --gold:#fbbf24;--green:#34d399;
+  --nav-h:62px;--r:8px;--r-sm:5px;--r-lg:14px;
+  --sh:0 4px 32px rgba(0,0,0,.65);--sh-lg:0 16px 60px rgba(0,0,0,.9);
+  --ease:cubic-bezier(.23,1,.32,1);--tr:.28s var(--ease);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;overflow-x:hidden;line-height:1.6}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+button{cursor:pointer;font-family:inherit;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;color:var(--txt)}
+ul{list-style:none}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--s1)}::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.024;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* NAV */
+#mainNav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:800;background:rgba(7,7,14,.94);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--bdr)}
+.nav-inner{max-width:1480px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:1.5rem}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.15em;cursor:pointer;flex-shrink:0;display:flex;align-items:baseline;gap:2px;transition:opacity .2s}
+.nav-logo:hover{opacity:.85}.nav-logo .dot{color:var(--anime)}
+.nav-logo sub{font-size:.48rem;letter-spacing:.3em;color:var(--muted);font-family:'JetBrains Mono',monospace;font-weight:400;margin-left:4px;vertical-align:middle}
+.nav-pills{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}.nav-pills::-webkit-scrollbar{display:none}
+.nav-pill{padding:.3rem .85rem;border-radius:20px;font-size:.73rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);transition:var(--tr);white-space:nowrap;border:1px solid transparent}
+.nav-pill:hover{color:var(--txt);background:var(--s2)}.nav-pill.active{color:var(--txt);background:var(--s2);border-color:var(--bdr2)}
+.nav-pill[data-t="anime"].active{color:var(--anime);border-color:var(--anime-d);background:var(--anime-d)}
+.nav-pill[data-t="manhwa"].active{color:var(--manhwa);border-color:var(--manhwa-d);background:var(--manhwa-d)}
+.nav-pill[data-t="manhua"].active{color:var(--manhua);border-color:var(--manhua-d);background:var(--manhua-d)}
+.nav-pill[data-t="manga"].active{color:var(--manga);border-color:var(--manga-d);background:var(--manga-d)}
+.nav-pill[data-t="comic"].active{color:var(--comic);border-color:var(--comic-d);background:var(--comic-d)}
+.nav-pill[data-t="novel"].active{color:var(--novel);border-color:var(--novel-d);background:var(--novel-d)}
+.nav-pill[data-t="game"].active{color:var(--game);border-color:var(--game-d);background:var(--game-d)}
+.nav-right{display:flex;align-items:center;gap:.45rem;flex-shrink:0}
+.nav-sb{position:relative}.nav-sb input{background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r-sm);padding:.42rem .9rem .42rem 2.1rem;color:var(--txt);font-size:.82rem;width:200px;outline:none;transition:var(--tr)}.nav-sb input:focus{border-color:var(--bdr2);width:258px}.nav-sb input::placeholder{color:var(--muted)}.nav-sb .si{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);font-size:.82rem;color:var(--muted);pointer-events:none}
+.nav-btn{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:.95rem;color:var(--muted);transition:var(--tr);position:relative;border:1px solid transparent}
+.nav-btn:hover{color:var(--txt);background:var(--s2);border-color:var(--bdr)}
+.nav-btn .badge{position:absolute;top:3px;right:3px;min-width:14px;height:14px;background:var(--anime);border-radius:7px;border:2px solid var(--bg);font-size:.48rem;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;padding:0 2px}
+/* HERO */
+.hero{min-height:96vh;display:flex;align-items:flex-end;padding-bottom:5rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg-base{position:absolute;inset:0;background:linear-gradient(160deg,#08071a 0%,#10091f 40%,#070714 80%,var(--bg) 100%)}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 10s ease-in-out infinite}
+.hero-orb1{width:700px;height:700px;right:-100px;top:-200px;background:radial-gradient(circle,rgba(255,77,109,.1) 0%,transparent 70%);animation-duration:12s}
+.hero-orb2{width:500px;height:500px;left:10%;top:20%;background:radial-gradient(circle,rgba(139,92,246,.08) 0%,transparent 70%);animation-delay:-5s;animation-duration:9s}
+.hero-orb3{width:400px;height:400px;right:25%;bottom:10%;background:radial-gradient(circle,rgba(251,191,36,.06) 0%,transparent 70%);animation-delay:-3s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-30px,20px) scale(1.05)}66%{transform:translate(20px,-15px) scale(.95)}}
+.hero-lines{position:absolute;inset:0;background-image:linear-gradient(var(--bdr) 1px,transparent 1px),linear-gradient(90deg,var(--bdr) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(ellipse 65% 75% at 75% 45%,black 10%,transparent 75%);opacity:.5}
+.hero-content{position:relative;z-index:2;max-width:1480px;margin:0 auto;padding:0 2rem;width:100%;display:grid;grid-template-columns:1fr 480px;gap:5rem;align-items:flex-end}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;margin-bottom:1.8rem;background:rgba(255,77,109,.12);border:1px solid rgba(255,77,109,.25);border-radius:20px;padding:.35rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.25em;color:var(--anime);text-transform:uppercase}
+.hero-eyebrow::before{content:'▶';font-size:.52rem}
+h1.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,10vw,9.5rem);line-height:.88;letter-spacing:.02em;margin-bottom:1.8rem}
+h1.hero-title .l1{display:block}h1.hero-title .l2{display:block;color:var(--anime)}h1.hero-title .l3{display:block;-webkit-text-stroke:1.5px var(--faint);color:transparent}
+.hero-desc{font-size:1.05rem;color:var(--muted);max-width:520px;margin-bottom:2.5rem;line-height:1.8}
+.hero-ctas{display:flex;gap:.9rem;align-items:center;flex-wrap:wrap}
+.hero-stats{display:flex;gap:3rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--bdr)}
+.hstat-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1}.hstat-lbl{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:.2rem}
+.type-showcase{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.type-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.2rem;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden}
+.type-card::before{content:'';position:absolute;inset:0;opacity:0;transition:var(--tr);background:var(--tc-bg,var(--anime-d))}.type-card:hover{transform:translateY(-4px);border-color:var(--tc-c,var(--anime))}.type-card:hover::before{opacity:1}
+.type-card-icon{font-size:1.8rem;margin-bottom:.5rem;position:relative;z-index:1}
+.type-card-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;position:relative;z-index:1;color:var(--tc-c,var(--anime))}
+.type-card-count{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);position:relative;z-index:1;margin-top:.2rem}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;border-radius:var(--r-sm);transition:var(--tr);font-size:.9rem;cursor:pointer;font-family:inherit}
+.btn-lg{padding:.85rem 2rem;font-size:.95rem}.btn-sm{padding:.35rem .85rem;font-size:.78rem}.btn-xs{padding:.22rem .6rem;font-size:.7rem}
+.btn-primary{background:var(--anime);color:white}.btn-primary:hover{filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 8px 28px var(--anime-g)}
+.btn-ghost{background:transparent;border:1px solid var(--bdr2);color:var(--muted)}.btn-ghost:hover{border-color:var(--bdr3);color:var(--txt)}
+.btn-danger{background:var(--anime-d);border:1px solid rgba(255,77,109,.3);color:var(--anime)}.btn-danger:hover{background:var(--anime);color:white}
+.btn-success{background:var(--novel-d);border:1px solid rgba(52,211,153,.3);color:var(--novel)}.btn-success:hover{background:var(--novel);color:#000}
+.btn-accent{background:var(--accent-d);border:1px solid rgba(139,92,246,.3);color:var(--accent)}.btn-accent:hover{background:var(--accent);color:white}
+/* MARQUEE */
+.marquee-wrap{background:var(--anime);padding:.65rem 0;overflow:hidden;display:flex}
+.marquee-track{display:flex;animation:marquee 24s linear infinite;white-space:nowrap}
+.marquee-item{font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.28em;padding:0 2.5rem;color:rgba(255,255,255,.88);display:inline-flex;align-items:center;gap:2.5rem}
+.marquee-item::after{content:'✦';font-size:.5rem;opacity:.6}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* SECTIONS */
+.section{padding:4.5rem 0}.section-alt{background:var(--s1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.container{max-width:1480px;margin:0 auto;padding:0 2rem}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.35em;color:var(--anime);text-transform:uppercase;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.sec-tag::before{content:'';display:inline-block;width:16px;height:1px;background:var(--anime)}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:.04em;line-height:1}
+.see-all{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:var(--muted);cursor:pointer;background:none;border:none;border-bottom:1px solid rgba(120,120,160,.3);padding-bottom:1px;transition:var(--tr)}.see-all:hover{color:var(--anime);border-color:var(--anime)}
+/* SERIES CARDS */
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1.1rem}
+.grid-auto-lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem}
+.sc{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:var(--tr);position:relative}
+.sc:hover{transform:translateY(-6px);border-color:var(--bdr2);box-shadow:var(--sh)}
+.sc-cover{aspect-ratio:2/3;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.sc-cover img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.sc:hover .sc-cover img{transform:scale(1.07)}
+.sc-cover-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;text-align:center}
+.sc-cover-ph .ph-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.04em;color:rgba(255,255,255,.22);line-height:1.2;word-break:break-word}
+.sc-cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,14,.9) 0%,transparent 55%);pointer-events:none}
+.sc-type-tag{position:absolute;top:.5rem;left:.5rem;z-index:3;font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:.12em;padding:.18rem .45rem;border-radius:3px;text-transform:uppercase;font-weight:700}
+.sc-status{position:absolute;top:.5rem;right:.5rem;z-index:3;font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:.1em;padding:.18rem .4rem;border-radius:3px;text-transform:uppercase}
+.tag-anime{background:var(--anime-d);color:var(--anime);border:1px solid rgba(255,77,109,.25)}
+.tag-manhwa{background:var(--manhwa-d);color:var(--manhwa);border:1px solid rgba(255,107,53,.25)}
+.tag-manhua{background:var(--manhua-d);color:var(--manhua);border:1px solid rgba(245,158,11,.25)}
+.tag-manga{background:var(--manga-d);color:var(--manga);border:1px solid rgba(56,189,248,.25)}
+.tag-comic{background:var(--comic-d);color:var(--comic);border:1px solid rgba(167,139,250,.25)}
+.tag-novel{background:var(--novel-d);color:var(--novel);border:1px solid rgba(52,211,153,.25)}
+.tag-game{background:var(--game-d);color:var(--game);border:1px solid rgba(251,191,36,.25)}
+.s-ongoing{background:rgba(52,211,153,.1);color:var(--novel);border:1px solid rgba(52,211,153,.2)}
+.s-completed{background:rgba(56,189,248,.1);color:var(--manga);border:1px solid rgba(56,189,248,.2)}
+.s-hiatus{background:rgba(245,158,11,.1);color:var(--manhua);border:1px solid rgba(245,158,11,.2)}
+.sc-body{padding:.75rem;border-top:1px solid var(--bdr)}
+.sc-title{font-weight:800;font-size:.84rem;line-height:1.3;margin-bottom:.3rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sc-meta{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;color:var(--muted)}.sc-rating{color:var(--gold);font-weight:700}
+/* SPOTLIGHT */
+.spotlight{display:grid;grid-template-columns:380px 1fr;background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;min-height:460px}
+.spotlight-cover{position:relative;overflow:hidden}.spotlight-cover-img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.spotlight:hover .spotlight-cover-img{transform:scale(1.04)}
+.spotlight-cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(255,255,255,.12);padding:2rem;text-align:center;line-height:1}
+.spotlight-overlay{position:absolute;inset:0;background:linear-gradient(90deg,transparent 50%,var(--s1) 100%)}
+.spotlight-body{padding:3rem;display:flex;flex-direction:column;justify-content:center}
+.spotlight-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--anime);text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem}
+.spotlight-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--anime)}
+.spotlight-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;line-height:.95;margin-bottom:1rem}
+.spotlight-desc{font-size:.9rem;line-height:1.8;color:var(--muted);max-width:560px;margin-bottom:1.8rem}
+.spotlight-stats{display:flex;gap:2rem;margin-bottom:1.8rem;padding:1.2rem 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.sstat-val{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--gold);line-height:1}.sstat-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-top:.15rem}
+.genre-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.8rem}
+.genre-chip{padding:.22rem .65rem;border-radius:3px;border:1px solid var(--bdr);font-size:.72rem;color:var(--muted);font-weight:600}
+/* GENRE GRID */
+.genre-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.7rem}
+.genre-btn{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r-sm);padding:.9rem 1rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:.6rem}
+.genre-btn:hover{border-color:var(--bdr2);background:var(--s2);transform:translateY(-2px)}
+.genre-em{font-size:1.1rem}.genre-nm{font-weight:700;font-size:.82rem}.genre-ct{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--muted);margin-left:auto}
+/* FILTERS */
+.filter-bar{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem 1.3rem;margin-bottom:1.8rem;display:flex;flex-wrap:wrap;gap:.9rem;align-items:center}
+.f-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.f-select{background:var(--s2);border:1px solid var(--bdr);color:var(--txt);padding:.35rem .7rem;border-radius:4px;font-size:.82rem;outline:none;cursor:pointer}
+.f-chips{display:flex;gap:.3rem;flex-wrap:wrap}
+.f-chip{padding:.22rem .62rem;border:1px solid var(--bdr);border-radius:20px;font-size:.72rem;font-weight:700;color:var(--muted);cursor:pointer;transition:var(--tr);background:none}
+.f-chip:hover{border-color:var(--bdr2);color:var(--txt)}.f-chip.active{border-color:var(--anime);color:var(--anime);background:var(--anime-d)}
+.f-divider{width:1px;height:22px;background:var(--bdr);flex-shrink:0}.r-count{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);margin-left:auto}
+/* SERIES DETAIL */
+.detail-hero{background:var(--s1);border-bottom:1px solid var(--bdr);padding:3.5rem 0 0;position:relative;overflow:hidden}
+.detail-bg-blur{position:absolute;inset:0;filter:blur(60px);opacity:.1;z-index:0}
+.detail-inner{position:relative;z-index:1;display:grid;grid-template-columns:210px 1fr;gap:3rem;align-items:flex-start}
+.detail-cover{width:210px;flex-shrink:0;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-lg)}
+.detail-cover img,.detail-cover-ph{width:100%;aspect-ratio:2/3;object-fit:cover}
+.detail-cover-ph{display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--faint);padding:1rem;text-align:center}
+.detail-breadcrumb{font-size:.8rem;color:var(--muted);margin-bottom:1.2rem;display:flex;align-items:center;gap:.4rem}
+.bc-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.8rem;transition:var(--tr)}.bc-btn:hover{color:var(--txt)}.bc-sep{opacity:.4}
+.detail-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.dtag{padding:.2rem .55rem;border-radius:3px;font-size:.68rem;font-weight:700;border:1px solid var(--bdr);color:var(--muted)}
+.detail-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.03em;line-height:.95;margin-bottom:.8rem}
+.detail-meta{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-bottom:1.2rem}.detail-meta strong{color:var(--txt)}
+.detail-desc{font-size:.91rem;line-height:1.82;color:var(--muted);max-width:680px;margin-bottom:1.5rem}
+.detail-actions{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem}
+.detail-stats{display:flex;gap:2.5rem;padding:1.2rem 0;border-top:1px solid var(--bdr)}
+.ds-num{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;line-height:1}.ds-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-top:.15rem}
+.btn-bm{padding:.7rem 1.5rem;border:1px solid var(--bdr2);border-radius:var(--r-sm);font-weight:700;font-size:.86rem;color:var(--muted);transition:var(--tr);background:none}
+.btn-bm:hover{border-color:var(--gold);color:var(--gold)}.btn-bm.on{border-color:var(--gold);color:var(--gold);background:rgba(251,191,36,.1)}
+.stars-wrap{display:flex;gap:.18rem;cursor:pointer}.star{font-size:1.1rem;color:var(--muted);transition:var(--tr)}.star.on{color:var(--gold)}
+/* CHAPTER LIST */
+.ch-list-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--bdr)}
+.ch-list-title{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.05em}
+.ch-sort{background:var(--s2);border:1px solid var(--bdr);color:var(--txt);padding:.32rem .65rem;border-radius:4px;font-size:.78rem;outline:none;cursor:pointer}
+.ch-item{display:flex;align-items:center;gap:1rem;padding:.8rem 1rem;border:1px solid var(--bdr);border-radius:var(--r-sm);margin-bottom:.4rem;cursor:pointer;transition:var(--tr);background:var(--s1)}
+.ch-item:hover{border-color:var(--bdr2);background:var(--s2);transform:translateX(4px)}.ch-item.ch-read{opacity:.5}
+.ch-num{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--anime);min-width:3rem;line-height:1}
+.ch-info{flex:1;min-width:0}.ch-t{font-weight:700;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ch-d{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);margin-top:.15rem}
+.ch-v{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);flex-shrink:0}
+.ch-read-tag{font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--novel);border:1px solid var(--novel-d);background:var(--novel-d);padding:.1rem .42rem;border-radius:8px;flex-shrink:0}
+/* READER */
+.reader-shell{min-height:100vh;background:var(--bg);padding-top:var(--nav-h)}
+.reader-topbar{position:fixed;top:var(--nav-h);left:0;right:0;z-index:700;background:rgba(7,7,14,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--bdr);padding:.65rem 2rem;display:flex;align-items:center;gap:1rem}
+.reader-back{background:none;border:none;color:var(--muted);font-size:.84rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:.4rem;transition:var(--tr)}.reader-back:hover{color:var(--txt)}
+.reader-title{flex:1;text-align:center}.reader-series-lbl{font-size:.73rem;color:var(--muted);font-weight:600}.reader-ch-lbl{font-family:'Bebas Neue',sans-serif;font-size:.96rem;letter-spacing:.05em}
+.reader-ch-nav{display:flex;gap:.4rem;align-items:center}
+.rnav-btn{padding:.36rem .82rem;border:1px solid var(--bdr);border-radius:4px;font-size:.74rem;font-weight:700;color:var(--muted);transition:var(--tr);background:none;cursor:pointer}
+.rnav-btn:hover:not(:disabled){border-color:var(--anime);color:var(--anime)}.rnav-btn:disabled{opacity:.25;cursor:not-allowed}
+.rnav-info{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);white-space:nowrap}
+.comic-scroll{padding-top:calc(var(--nav-h)+56px);padding-bottom:5rem;max-width:820px;margin:0 auto}
+.comic-ph{width:100%;min-height:520px;background:var(--s2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:var(--muted);border-bottom:3px solid var(--bg)}
+.comic-ph .pg-n{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--faint);line-height:1}.comic-ph .pg-l{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;opacity:.5}
+.novel-shell{padding-top:calc(var(--nav-h)+70px);padding-bottom:6rem;max-width:700px;margin:0 auto;padding-left:2rem;padding-right:2rem}
+.novel-toolbar{position:fixed;top:calc(var(--nav-h)+56px);right:2rem;z-index:650;background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r-sm);padding:.55rem .8rem;display:flex;gap:.35rem;align-items:center}
+.nf-btn{width:26px;height:26px;border:1px solid var(--bdr);border-radius:3px;color:var(--muted);background:none;font-weight:900;font-size:.75rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr)}.nf-btn:hover{border-color:var(--anime);color:var(--anime)}
+.novel-ch-num{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.25em;color:var(--anime);text-transform:uppercase;text-align:center;margin-bottom:.5rem}
+.novel-ch-title{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:.04em;text-align:center;margin-bottom:.3rem;line-height:1}
+.novel-divider{text-align:center;color:var(--muted);margin:2.5rem 0;letter-spacing:.6em;font-size:.8rem}
+.novel-text{font-family:'Lora',serif;line-height:2;color:rgba(238,234,248,.86)}.novel-text p{margin-bottom:1.6em}.novel-text h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.05em;margin:2rem 0 .8rem;color:var(--txt)}
+.ep-viewer{padding:calc(var(--nav-h)+70px) 2rem 5rem;max-width:760px;margin:0 auto}
+.ep-synopsis{font-size:.93rem;line-height:1.85;color:rgba(238,234,248,.82);background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:2rem;margin-bottom:2rem}
+.ep-synopsis p{margin-bottom:1.2em}
+.guide-shell{padding-top:calc(var(--nav-h)+70px);padding-bottom:5rem;max-width:860px;margin:0 auto;padding-left:2rem;padding-right:2rem}
+.guide-text h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.05em;margin:2.5rem 0 .8rem;color:var(--game);border-bottom:1px solid var(--bdr);padding-bottom:.4rem}
+.guide-text p{margin-bottom:1.2em;font-size:.92rem;line-height:1.88;color:rgba(238,234,248,.85)}.guide-text ul{margin-bottom:1.2em;padding-left:1.5rem}.guide-text ul li{margin-bottom:.4em;color:rgba(238,234,248,.8)}.guide-text ul li::marker{color:var(--game)}
+.guide-text .tip{background:var(--game-d);border-left:3px solid var(--game);padding:.8rem 1.2rem;border-radius:0 var(--r-sm) var(--r-sm) 0;margin-bottom:1.2em}
+.reader-bottom{position:fixed;bottom:0;left:0;right:0;z-index:700;background:rgba(7,7,14,.96);backdrop-filter:blur(14px);border-top:1px solid var(--bdr);padding:.85rem 2rem;display:flex;align-items:center;justify-content:center;gap:.9rem}
+.video-viewer{padding:calc(var(--nav-h)+70px) 2rem 5rem;max-width:960px;margin:0 auto}
+.video-embed-wrap{width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem}
+.video-embed-wrap iframe,.video-embed-wrap video{width:100%;height:100%;border:none}
+.pdf-viewer{padding:calc(var(--nav-h)+70px) 1rem 5rem;max-width:1000px;margin:0 auto}
+.pdf-frame-wrap{width:100%;height:85vh;border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr)}
+.pdf-frame-wrap iframe{width:100%;height:100%;border:none}
+/* CONTINUE STRIP */
+.cont-strip{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.4rem;margin-bottom:3rem}
+.cont-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--anime);text-transform:uppercase;margin-bottom:1rem}
+.cont-list{display:flex;gap:.9rem;overflow-x:auto;padding-bottom:.4rem;scrollbar-width:none}.cont-list::-webkit-scrollbar{display:none}
+.cont-item{display:flex;gap:.75rem;align-items:center;background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r-sm);padding:.6rem .9rem;cursor:pointer;transition:var(--tr);min-width:240px;flex-shrink:0}
+.cont-item:hover{border-color:var(--bdr2);transform:translateY(-2px)}
+.cont-thumb{width:34px;height:46px;border-radius:3px;overflow:hidden;flex-shrink:0;background:var(--s3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:.7rem;color:var(--faint)}
+.cont-thumb img{width:100%;height:100%;object-fit:cover}
+.cont-t{font-weight:800;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cont-c{font-size:.72rem;color:var(--muted);margin-top:.15rem}
+/* MISC */
+.page-wrap{padding-top:var(--nav-h)}.page-hero{background:var(--s1);border-bottom:1px solid var(--bdr);padding:3rem 0 2.5rem}
+.page-hero h1{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;margin-bottom:1.2rem}
+.search-big{position:relative;max-width:680px}
+.search-big-input{width:100%;background:var(--s2);border:2px solid var(--bdr2);border-radius:var(--r);padding:1rem 1rem 1rem 3rem;color:var(--txt);font-size:1.05rem;outline:none;transition:var(--tr)}.search-big-input:focus{border-color:var(--anime)}
+.search-big-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--muted);pointer-events:none}
+.empty-state{text-align:center;padding:5rem 2rem}.empty-icon{font-size:3.5rem;margin-bottom:1rem}
+.empty-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;margin-bottom:.5rem}
+.empty-desc{color:var(--muted);font-size:.9rem;max-width:320px;margin:0 auto 1.5rem}
+/* TOAST */
+#toastBox{position:fixed;bottom:2rem;right:2rem;z-index:9999;display:flex;flex-direction:column;gap:.45rem;pointer-events:none}
+.toast{background:var(--s2);border:1px solid var(--bdr2);border-radius:var(--r-sm);padding:.7rem 1.1rem;font-size:.84rem;font-weight:700;display:flex;align-items:center;gap:.55rem;box-shadow:var(--sh);animation:tIn .3s var(--ease);min-width:210px;pointer-events:all}
+.toast-s{border-left:3px solid var(--novel)}.toast-e{border-left:3px solid var(--anime)}.toast-i{border-left:3px solid var(--accent)}
+@keyframes tIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+/* FOOTER */
+.site-footer{background:var(--s1);border-top:1px solid var(--bdr);padding:4rem 0 2rem;margin-top:5rem}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.12em;margin-bottom:.8rem}.footer-logo span{color:var(--anime)}
+.footer-desc{font-size:.84rem;color:var(--muted);line-height:1.7;max-width:280px}
+.footer-type-row{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1.2rem}
+.ft-badge{padding:.18rem .55rem;border-radius:3px;font-size:.56rem;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.1em}
+.footer-col-t{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.1em;margin-bottom:1rem}
+.footer-col ul{display:flex;flex-direction:column;gap:.55rem}.footer-col li button{background:none;border:none;font-size:.84rem;color:var(--muted);cursor:pointer;transition:var(--tr);font-family:inherit;text-align:left}.footer-col li button:hover{color:var(--txt)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:1.5rem;border-top:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:.56rem;color:rgba(120,120,160,.35);letter-spacing:.08em}
+/* ═══════════════════════ ADMIN PANEL ═══════════════════════ */
+/* FAB */
+#adminFAB{position:fixed;bottom:2rem;right:2rem;z-index:8000;display:flex;align-items:center;gap:.65rem;height:46px;border-radius:23px;background:linear-gradient(135deg,var(--anime),var(--accent));color:white;padding:0 1.2rem 0 .95rem;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(255,77,109,.4);transition:var(--tr);font-size:.82rem;font-weight:800;font-family:inherit}
+#adminFAB:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(255,77,109,.55)}
+#adminFAB.hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
+/* Overlay */
+#adminOverlay{position:fixed;inset:0;z-index:9100;display:flex;opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+#adminOverlay.open{opacity:1;pointer-events:all}
+.admin-shell{display:flex;width:100%;height:100%;background:var(--bg)}
+/* Sidebar */
+.admin-sidebar{width:268px;background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column;height:100vh;overflow-y:auto;flex-shrink:0;transform:translateX(-100%);transition:transform .38s var(--ease)}
+#adminOverlay.open .admin-sidebar{transform:translateX(0)}
+.admin-brand{padding:1.5rem 1.4rem 1rem;border-bottom:1px solid var(--bdr)}
+.admin-brand-logo{font-family:'Bebas Neue',sans-serif;font-size:1.65rem;letter-spacing:.12em}.admin-brand-logo span{color:var(--anime)}
+.admin-brand-tagline{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;margin-top:.1rem}
+.admin-user-card{padding:.85rem 1.2rem;background:rgba(255,255,255,.03);border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:.75rem}
+.auc-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:800;flex-shrink:0;border:2px solid var(--bdr2)}
+.auc-name{font-weight:800;font-size:.86rem;line-height:1.2}.auc-role{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase}
+.admin-nav{flex:1;padding:.7rem 0;overflow-y:auto}
+.anav-sec{padding:.5rem 1.4rem .25rem;font-family:'JetBrains Mono',monospace;font-size:.49rem;letter-spacing:.3em;color:rgba(110,110,150,.4);text-transform:uppercase;margin-top:.4rem}
+.anav-item{display:flex;align-items:center;gap:.75rem;padding:.58rem 1.4rem;color:var(--muted);font-size:.86rem;font-weight:700;cursor:pointer;transition:var(--tr);border-left:2px solid transparent;width:100%;text-align:left;background:none;border-top:none;border-right:none;border-bottom:none}
+.anav-item:hover{color:var(--txt);background:rgba(255,255,255,.03)}.anav-item.active{color:var(--anime);border-left-color:var(--anime);background:var(--anime-d)}
+.anav-icon{font-size:.92rem;width:1.2rem;text-align:center;flex-shrink:0}
+.anav-badge{margin-left:auto;background:var(--anime);color:white;font-family:'JetBrains Mono',monospace;font-size:.48rem;font-weight:700;padding:.08rem .38rem;border-radius:8px;min-width:16px;text-align:center}
+.admin-sidebar-footer{padding:1rem 1.2rem;border-top:1px solid var(--bdr);display:flex;gap:.4rem;flex-shrink:0}
+.afoot-btn{flex:1;padding:.48rem;border:1px solid var(--bdr);border-radius:4px;color:var(--muted);font-size:.78rem;font-weight:700;background:none;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:.3rem}
+.afoot-btn:hover{border-color:var(--bdr2);color:var(--txt)}.afoot-btn.danger:hover{border-color:var(--anime);color:var(--anime)}
+/* Admin main */
+.admin-main{flex:1;display:flex;flex-direction:column;overflow:hidden;transform:translateX(-40px);opacity:0;transition:transform .38s var(--ease) .08s,opacity .38s var(--ease) .08s}
+#adminOverlay.open .admin-main{transform:translateX(0);opacity:1}
+.admin-topbar{height:58px;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 2rem;gap:1rem;flex-shrink:0}
+.admin-bc{font-family:'JetBrains Mono',monospace;font-size:.63rem;letter-spacing:.08em;color:var(--muted);flex:1}
+.admin-bc span{color:var(--txt);font-weight:700}
+.admin-top-search{position:relative;width:230px}
+.admin-top-search input{background:var(--s1);border:1px solid var(--bdr);color:var(--txt);padding:.38rem .85rem .38rem 2rem;border-radius:4px;font-size:.8rem;outline:none;width:100%;transition:var(--tr)}.admin-top-search input:focus{border-color:var(--bdr2)}.admin-top-search input::placeholder{color:var(--muted)}
+.admin-top-search .si{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);font-size:.78rem;color:var(--muted);pointer-events:none}
+.atop-btn{width:34px;height:34px;border:1px solid var(--bdr);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.82rem;color:var(--muted);cursor:pointer;background:none;transition:var(--tr)}.atop-btn:hover{border-color:var(--bdr2);color:var(--txt)}
+.admin-content{flex:1;overflow-y:auto;padding:2rem}
+/* Admin pages */
+.apg-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2rem;gap:1rem;flex-wrap:wrap}
+.apg-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.04em;line-height:1}
+.apg-sub{font-size:.82rem;color:var(--muted);margin-top:.3rem}
+.apg-actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+/* Stat grid */
+.a-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.a-stat{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.4rem;position:relative;overflow:hidden;transition:var(--tr)}.a-stat:hover{border-color:var(--bdr2)}
+.a-stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--sc,var(--anime))}
+.a-stat-icon{font-size:1.5rem;margin-bottom:.8rem}.a-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:.02em;line-height:1;color:var(--sc,var(--txt))}.a-stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-top:.3rem}.a-stat-sub{font-size:.72rem;color:var(--novel);margin-top:.3rem;font-family:'JetBrains Mono',monospace}
+/* Charts */
+.a-chart{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.4rem;margin-bottom:1.5rem}
+.a-chart-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
+.a-chart-title{font-weight:800;font-size:.9rem}
+.a-bars{display:flex;align-items:flex-end;gap:.5rem;height:80px;padding-bottom:1.8rem}
+.a-bar{flex:1;border-radius:3px 3px 0 0;background:var(--bc,var(--anime));opacity:.6;transition:opacity .3s;min-width:20px;position:relative;cursor:default}.a-bar:hover{opacity:1}
+.a-bar-lbl{position:absolute;bottom:-1.4rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.45rem;color:var(--muted);white-space:nowrap}
+.a-bar-val{position:absolute;top:0;left:50%;transform:translate(-50%,-120%);font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--muted);white-space:nowrap;background:var(--s2);padding:.1rem .3rem;border-radius:3px;opacity:0;transition:opacity .2s}.a-bar:hover .a-bar-val{opacity:1}
+/* Tables */
+.a-table-wrap{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem;overflow-x:auto}
+.a-table{width:100%;border-collapse:collapse;font-size:.84rem;min-width:600px}
+.a-table th{background:rgba(255,255,255,.03);padding:.68rem 1rem;text-align:left;font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--bdr);white-space:nowrap}
+.a-table td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.a-table tr:last-child td{border-bottom:none}.a-table tr:hover td{background:rgba(255,255,255,.025)}
+.tcell-title{font-weight:800;font-size:.84rem}.tcell-sub{font-size:.72rem;color:var(--muted);margin-top:.12rem}
+.a-mini-cover{width:32px;height:44px;border-radius:3px;overflow:hidden;background:var(--s3);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle}
+.a-mini-cover img{width:100%;height:100%;object-fit:cover}
+.tbl-acts{display:flex;gap:.3rem;flex-wrap:wrap;align-items:center}
+.ta{padding:.22rem .58rem;border-radius:3px;font-size:.68rem;font-weight:700;border:1px solid var(--bdr);color:var(--muted);background:none;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.ta:hover{border-color:var(--bdr2);color:var(--txt)}.ta.edit:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-d)}.ta.del:hover{border-color:var(--anime);color:var(--anime);background:var(--anime-d)}.ta.prim{border-color:var(--anime);color:var(--anime);background:var(--anime-d)}
+/* Checkbox */
+.acb{width:15px;height:15px;border:1px solid var(--bdr2);border-radius:3px;background:none;cursor:pointer;appearance:none;position:relative;transition:var(--tr)}.acb:checked{background:var(--anime);border-color:var(--anime)}.acb:checked::after{content:'✓';position:absolute;font-size:.55rem;color:white;font-weight:900;top:0;left:1px}
+.bulk-bar{background:var(--anime-d);border:1px solid rgba(255,77,109,.3);border-radius:var(--r-sm);padding:.6rem 1.2rem;margin-bottom:1rem;display:none;align-items:center;gap:.8rem;font-size:.84rem}
+.bulk-bar.show{display:flex}.bulk-cnt{font-weight:800;color:var(--anime)}
+/* Forms */
+.a-form{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.8rem;max-width:920px}
+.a-form-sec{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.06em;margin:1.5rem 0 1rem;display:flex;align-items:center;gap:.7rem;color:var(--muted)}
+.a-form-sec::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.fg.three{grid-template-columns:1fr 1fr 1fr}.fg.one{grid-template-columns:1fr}
+.ff{display:flex;flex-direction:column;gap:.38rem}.ff.full{grid-column:span 2}.ff.span3{grid-column:span 3}
+.ff-label{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:.35rem}.ff-req{color:var(--anime)}
+.ff-input,.ff-select,.ff-textarea{background:var(--s2);border:1px solid var(--bdr);border-radius:4px;padding:.6rem .85rem;color:var(--txt);font-size:.86rem;outline:none;transition:var(--tr);width:100%}
+.ff-input:focus,.ff-select:focus,.ff-textarea:focus{border-color:var(--anime);background:var(--s3)}
+.ff-textarea{resize:vertical;min-height:120px;line-height:1.65}
+.ff-hint{font-size:.72rem;color:var(--muted);margin-top:.25rem}.char-ct{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--muted);text-align:right;margin-top:.2rem}
+.form-acts{display:flex;gap:.7rem;margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--bdr);align-items:center;flex-wrap:wrap}
+/* Genre toggles */
+.g-toggles{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
+.g-toggle{padding:.2rem .58rem;border-radius:16px;border:1px solid var(--bdr);font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;background:none;transition:var(--tr)}.g-toggle:hover{border-color:var(--bdr2);color:var(--txt)}.g-toggle.on{border-color:var(--anime);color:var(--anime);background:var(--anime-d)}
+/* Cover upload */
+.cover-drop{border:2px dashed var(--bdr2);border-radius:var(--r);padding:1.5rem;text-align:center;cursor:pointer;transition:var(--tr);position:relative;margin-top:.3rem;min-height:80px;display:flex;align-items:center;justify-content:center}
+.cover-drop:hover{border-color:var(--anime);background:var(--anime-d)}.cover-drop.has-img{border-style:solid;padding:.5rem}
+.cover-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.cover-drop-hint{font-size:.8rem;color:var(--muted);pointer-events:none}.cover-drop-hint span{color:var(--anime);font-weight:700}
+.cover-preview{width:90px;aspect-ratio:2/3;object-fit:cover;border-radius:4px;margin:0 auto;pointer-events:none}
+/* Chapter type tabs */
+.ct-tabs{display:flex;gap:.4rem;margin-top:.35rem;flex-wrap:wrap}
+.ct-tab{padding:.36rem .82rem;border:1px solid var(--bdr);border-radius:var(--r-sm);font-size:.76rem;font-weight:700;color:var(--muted);cursor:pointer;transition:var(--tr);background:none}
+.ct-tab:hover{border-color:var(--bdr2);color:var(--txt)}.ct-tab.on{border-color:var(--anime);color:var(--anime);background:var(--anime-d)}
+.ct-tab[data-ct="video"].on{border-color:var(--manga);color:var(--manga);background:var(--manga-d)}
+.ct-tab[data-ct="pdf"].on{border-color:var(--game);color:var(--game);background:var(--game-d)}
+.ct-tab[data-ct="text"].on{border-color:var(--novel);color:var(--novel);background:var(--novel-d)}
+.ct-tab[data-ct="episode"].on{border-color:var(--manhwa);color:var(--manhwa);background:var(--manhwa-d)}
+/* Upload progress */
+.uprog{background:var(--s2);border:1px solid var(--bdr);border-radius:4px;overflow:hidden;height:5px;margin-top:.5rem;display:none}
+.uprog-bar{height:100%;background:linear-gradient(90deg,var(--anime),var(--accent));border-radius:4px;width:0;transition:width .3s}
+/* Image grid */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(75px,1fr));gap:.5rem;margin-top:.6rem}
+.img-thumb{aspect-ratio:2/3;border-radius:4px;overflow:hidden;position:relative;background:var(--s3)}
+.img-thumb img{width:100%;height:100%;object-fit:cover}
+.img-thumb-del{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(255,77,109,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.58rem;color:white;cursor:pointer;border:none;opacity:0;transition:var(--tr)}.img-thumb:hover .img-thumb-del{opacity:1}
+.img-thumb-num{position:absolute;bottom:2px;left:2px;background:rgba(0,0,0,.7);font-family:'JetBrains Mono',monospace;font-size:.4rem;padding:.1rem .25rem;border-radius:2px;color:white}
+/* Media library */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.75rem}
+.media-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r-sm);overflow:hidden;cursor:pointer;transition:var(--tr);position:relative}.media-card:hover{border-color:var(--bdr2);transform:translateY(-2px)}
+.media-thumb{aspect-ratio:1;background:var(--s2);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:2rem}.media-thumb img{width:100%;height:100%;object-fit:cover}
+.media-info{padding:.5rem .6rem;border-top:1px solid var(--bdr)}.media-name{font-size:.7rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.media-type{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--muted);margin-top:.1rem}
+.media-del{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(255,77,109,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;color:white;cursor:pointer;border:none;opacity:0;transition:var(--tr)}.media-card:hover .media-del{opacity:1}
+.media-ftab{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap}
+.mf{padding:.26rem .68rem;border:1px solid var(--bdr);border-radius:20px;font-size:.7rem;font-weight:700;color:var(--muted);cursor:pointer;transition:var(--tr);background:none}.mf:hover{border-color:var(--bdr2);color:var(--txt)}.mf.on{border-color:var(--accent);color:var(--accent);background:var(--accent-d)}
+/* Team */
+.team-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.2rem;display:flex;align-items:center;gap:1rem;margin-bottom:.6rem;transition:var(--tr)}.team-card:hover{border-color:var(--bdr2)}
+.team-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;flex-shrink:0;border:2px solid var(--bdr2)}
+.team-info{flex:1;min-width:0}.team-name{font-weight:800;font-size:.9rem}.team-role-lbl{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;margin-top:.15rem}.team-meta{font-size:.74rem;color:var(--muted);margin-top:.1rem}
+.rtag{font-family:'JetBrains Mono',monospace;font-size:.54rem;padding:.16rem .48rem;border-radius:3px;font-weight:700}
+.rtag-super{background:rgba(251,191,36,.14);color:var(--gold);border:1px solid rgba(251,191,36,.25)}
+.rtag-editor{background:var(--accent-d);color:var(--accent);border:1px solid rgba(139,92,246,.25)}
+.rtag-uploader{background:var(--novel-d);color:var(--novel);border:1px solid rgba(52,211,153,.25)}
+/* Activity */
+.act-item{display:flex;align-items:flex-start;gap:.85rem;padding:.78rem 0;border-bottom:1px solid rgba(255,255,255,.04)}.act-item:last-child{border-bottom:none}
+.act-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0;background:var(--s2)}
+.act-desc{font-size:.84rem;font-weight:600}.act-meta{font-family:'JetBrains Mono',monospace;font-size:.56rem;color:var(--muted);margin-top:.1rem;display:flex;gap:.5rem}
+/* Settings */
+.sett-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.sett-card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:1.5rem}.sett-card.danger{border-color:rgba(255,77,109,.2)}
+.sett-title{font-weight:800;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}.sett-desc{font-size:.8rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.6}.sett-card.danger .sett-title{color:var(--anime)}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--bdr)}.tog-row:last-child{border-bottom:none}
+.tog-label{font-size:.85rem;font-weight:600}.tog-sub{font-size:.72rem;color:var(--muted)}
+/* Admin login */
+.admin-login-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:2rem}
+.admin-login-box{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:3rem;width:100%;max-width:420px;box-shadow:var(--sh-lg)}
+.al-logo{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.12em;text-align:center;margin-bottom:.2rem}.al-logo span{color:var(--anime)}
+.al-sub{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;text-align:center;margin-bottom:2.5rem}
+.al-divider{text-align:center;font-size:.75rem;color:var(--muted);margin:.8rem 0;display:flex;align-items:center;gap:.5rem}.al-divider::before,.al-divider::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.login-err{background:var(--anime-d);border:1px solid rgba(255,77,109,.3);border-radius:4px;padding:.5rem 1rem;font-size:.82rem;color:var(--anime);margin-bottom:1rem;display:none}.login-err.show{display:block}
+/* Responsive */
+@media(max-width:1100px){.hero-content{grid-template-columns:1fr}.hero-right{display:none}.footer-grid{grid-template-columns:1fr 1fr}.a-stat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.nav-pills{display:none}.detail-inner{grid-template-columns:1fr}.spotlight{grid-template-columns:1fr}.spotlight-cover{height:240px}.sett-grid{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.ff.full{grid-column:span 1}.admin-sidebar{width:240px}.footer-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.grid-auto{grid-template-columns:repeat(2,1fr)}.grid-auto-lg{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toastBox"></div>
+<button id="adminFAB" class="hidden" onclick="ADM.open()">⚙ Admin</button>
+<div id="adminOverlay">
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="aSidebar">
+      <div class="admin-brand"><div class="admin-brand-logo">ACG<span>N</span></div><div class="admin-brand-tagline">Control Center</div></div>
+      <div class="admin-user-card" id="aUserCard"></div>
+      <nav class="admin-nav" id="aNavMenu"></nav>
+      <div class="admin-sidebar-footer">
+        <button class="afoot-btn" onclick="ADM.close();navigate('home')">🌐 Site</button>
+        <button class="afoot-btn danger" onclick="ADM.logout()">🚪 Out</button>
+      </div>
+    </aside>
+    <div class="admin-main" id="aMain">
+      <div class="admin-topbar">
+        <div class="admin-bc" id="aBc">Dashboard</div>
+        <div class="admin-top-search"><span class="si">🔍</span><input type="text" id="aSearchInput" placeholder="Search..."></div>
+        <div style="display:flex;gap:.4rem">
+          <button class="atop-btn" onclick="ADM.toggleNotif()" id="aNotifBtn" title="Activity">🔔</button>
+          <button class="atop-btn" onclick="ADM.close()" title="Close Panel">✕</button>
+        </div>
+        <div id="aNotifPanel" style="display:none;position:absolute;top:58px;right:58px;width:300px;background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--r);box-shadow:var(--sh-lg);z-index:200;overflow:hidden;max-height:420px;overflow-y:auto"></div>
+      </div>
+      <div class="admin-content" id="aContent"></div>
+    </div>
+  </div>
+</div>
+<script>
+'use strict';
+/* ── LOCAL STORAGE (text/JSON only, small data) ── */
+const S={
+  g(k){try{return JSON.parse(localStorage.getItem('acgn_'+k))}catch{return null}},
+  s(k,v){try{localStorage.setItem('acgn_'+k,JSON.stringify(v));return true}catch(e){if(e.name==='QuotaExceededError'||e.code===22||e.code===1014){toast('⚠️ Text storage full. Try clearing old data in Settings.','e')}else{toast('Storage error: '+e.message,'e')}return false}},
+  d(k){try{localStorage.removeItem('acgn_'+k)}catch{}}
+};
+
+/* ── INDEXEDDB (binary: PDFs, videos, media files — unlimited) ── */
+const IDB={
+  DB:'acgn_files',VER:1,STORE:'files',_db:null,
+  open(){
+    if(this._db)return Promise.resolve(this._db);
+    return new Promise((res,rej)=>{
+      const r=indexedDB.open(this.DB,this.VER);
+      r.onupgradeneeded=e=>e.target.result.createObjectStore(this.STORE);
+      r.onsuccess=e=>{this._db=e.target.result;res(this._db)};
+      r.onerror=()=>rej(r.error);
+    });
+  },
+  async get(key){const db=await this.open();return new Promise((res,rej)=>{const r=db.transaction(this.STORE,'readonly').objectStore(this.STORE).get(key);r.onsuccess=()=>res(r.result??null);r.onerror=()=>rej(r.error)})},
+  async set(key,val){const db=await this.open();return new Promise((res,rej)=>{const r=db.transaction(this.STORE,'readwrite').objectStore(this.STORE).put(val,key);r.onsuccess=()=>res(true);r.onerror=()=>rej(r.error)})},
+  async del(key){const db=await this.open();return new Promise((res,rej)=>{const r=db.transaction(this.STORE,'readwrite').objectStore(this.STORE).delete(key);r.onsuccess=()=>res(true);r.onerror=()=>rej(r.error)})},
+  async keys(){const db=await this.open();return new Promise((res,rej)=>{const r=db.transaction(this.STORE,'readonly').objectStore(this.STORE).getAllKeys();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)})},
+  async clear(prefix=''){const ks=await this.keys();await Promise.all(ks.filter(k=>!prefix||String(k).startsWith(prefix)).map(k=>this.del(k)))},
+  // Store a File/Blob and return the IDB key
+  async storeFile(file,prefix='file'){
+    const key=prefix+'_'+uid();
+    const buf=await file.arrayBuffer();
+    await this.set(key,{buf,mime:file.type,name:file.name,size:file.size});
+    return key;
+  },
+  // Get a temporary blob URL from an IDB key (caller should revoke when done)
+  async blobUrl(key){
+    const d=await this.get(key);
+    if(!d)return null;
+    if(typeof d==='string'&&d.startsWith('data:')){
+      // legacy dataURL stored as string — convert to blob
+      const [hd,b64]=d.split(',');const mime=hd.match(/:(.*?);/)[1];
+      const bin=atob(b64);const bytes=new Uint8Array(bin.length);
+      for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+      return URL.createObjectURL(new Blob([bytes],{type:mime}));
+    }
+    if(d&&d.buf)return URL.createObjectURL(new Blob([d.buf],{type:d.mime||'application/octet-stream'}));
+    return null;
+  },
+  // Return a dataURL from key (for persistent src attributes)
+  async dataUrl(key){
+    const d=await this.get(key);
+    if(!d)return null;
+    if(typeof d==='string'&&d.startsWith('data:'))return d;
+    if(d&&d.buf){
+      return new Promise(res=>{
+        const reader=new FileReader();
+        reader.onload=e=>res(e.target.result);
+        reader.readAsDataURL(new Blob([d.buf],{type:d.mime||'application/octet-stream'}));
+      });
+    }
+    return null;
+  }
+};
+
+/* ── IMAGE COMPRESSOR ── */
+const IMG={
+  compress(file,maxPx=1200,quality=0.78){
+    return new Promise((resolve,reject)=>{
+      if(!file.type.startsWith('image/')){reject(new Error('Not an image'));return}
+      const reader=new FileReader();
+      reader.onload=e=>{
+        const img=new Image();
+        img.onload=()=>{
+          let{width:w,height:h}=img;
+          if(w>maxPx||h>maxPx){if(w>h){h=Math.round(h*maxPx/w);w=maxPx}else{w=Math.round(w*maxPx/h);h=maxPx}}
+          const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+          const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+          const mime=canvas.toDataURL('image/webp').startsWith('data:image/webp')?'image/webp':'image/jpeg';
+          resolve(canvas.toDataURL(mime,quality));
+        };
+        img.onerror=()=>reject(new Error('Failed to load image'));
+        img.src=e.target.result;
+      };
+      reader.onerror=()=>reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  },
+  cover(file){return this.compress(file,800,0.80)},
+  page(file){return this.compress(file,1400,0.82)},
+  thumb(file){return this.compress(file,120,0.65)}, // tiny thumbnail for media grid
+};
+
+/* ── MEDIA LIB — metadata in LS, binaries in IDB ── */
+const MEDIA={
+  allMeta(){return S.g('media')||[]},
+  getMeta(id){return this.allMeta().find(m=>m.id===id)||null},
+  byType(t){const a=this.allMeta();return t==='all'?a:a.filter(m=>m.mediaType===t)},
+  stats(){const a=this.allMeta();return{total:a.length,images:a.filter(m=>m.mediaType==='image').length,videos:a.filter(m=>m.mediaType==='video').length,pdfs:a.filter(m=>m.mediaType==='pdf').length}},
+  async add(item){
+    const id=uid();
+    const meta={id,name:item.name||'file',mediaType:item.mediaType,mimeType:item.mimeType,size:item.size||0,uploadedBy:item.uploadedBy,ts:Date.now()};
+    // Images: store compressed dataURL as thumb in meta, full in IDB
+    if(item.mediaType==='image'&&item.data){
+      meta.thumb=item.thumb||item.data; // small preview
+      try{await IDB.set('media_'+id,item.data)}catch(e){toast('IDB error storing image: '+e.message,'e');return null}
+    } else if(item.idbKey){
+      // Already stored in IDB by caller
+      meta.idbKey=item.idbKey;
+    } else if(item.data){
+      // Non-image binary — store in IDB
+      try{await IDB.set('media_'+id,item.data)}catch(e){toast('IDB error: '+e.message,'e');return null}
+    }
+    const all=this.allMeta();all.unshift(meta);S.s('media',all);return meta;
+  },
+  async del(id){
+    S.s('media',this.allMeta().filter(m=>m.id!==id));
+    try{await IDB.del('media_'+id)}catch{}
+  },
+  async clearAll(){
+    S.d('media');
+    try{await IDB.clear('media_')}catch{}
+  }
+};
+
+/* ── CONFIG ── */
+const CFG={_mp:'thestarcrossed',ver:'4.0.0'};
+const TM={anime:{l:'Anime',e:'📺',c:'var(--anime)',d:'var(--anime-d)',cls:'tag-anime'},manhwa:{l:'Manhwa',e:'🇰🇷',c:'var(--manhwa)',d:'var(--manhwa-d)',cls:'tag-manhwa'},manhua:{l:'Manhua',e:'🇨🇳',c:'var(--manhua)',d:'var(--manhua-d)',cls:'tag-manhua'},manga:{l:'Manga',e:'🇯🇵',c:'var(--manga)',d:'var(--manga-d)',cls:'tag-manga'},comic:{l:'Comic',e:'💥',c:'var(--comic)',d:'var(--comic-d)',cls:'tag-comic'},novel:{l:'Novel',e:'📖',c:'var(--novel)',d:'var(--novel-d)',cls:'tag-novel'},game:{l:'Game',e:'🎮',c:'var(--game)',d:'var(--game-d)',cls:'tag-game'}};
+const TYPES=['all','anime','manhwa','manhua','manga','comic','novel','game'];
+const GENRES=['Action','Adventure','Comedy','Drama','Fantasy','Horror','Mystery','Romance','Sci-Fi','Slice of Life','Supernatural','Thriller','Cultivation','Isekai','Mecha','Sports','Historical','School','Dark Fantasy','Psychological'];
+
+/* ── UTILS ── */
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function fmtN(n){if(!n)return'0';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return String(n)}
+function fmtD(d){try{return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}catch{return d||''}}
+function today(){return new Date().toISOString().split('T')[0]}
+function ago(ts){if(!ts)return'';const d=(Date.now()-ts)/1e3;if(d<60)return'just now';if(d<3600)return Math.floor(d/60)+'m ago';if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago'}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function deb(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}}
+function grad(id){const G=['linear-gradient(135deg,#1a0533,#3a1060)','linear-gradient(135deg,#0a1a2e,#1a3d6e)','linear-gradient(135deg,#2e0a0a,#6e1a1a)','linear-gradient(135deg,#0a2e1a,#1a6e3d)','linear-gradient(135deg,#2e1a0a,#6e3d1a)','linear-gradient(135deg,#1a0a2e,#6e1a4d)','linear-gradient(135deg,#0a1a1a,#1a4d4d)','linear-gradient(135deg,#1a1a0a,#4a4a1a)','linear-gradient(135deg,#2a0a2a,#5a1a5a)'];const s=(id||'x').split('').reduce((a,c)=>a+c.charCodeAt(0),0);return G[s%G.length]}
+function chUnit(t){return{anime:'Ep',manhwa:'Ch',manhua:'Ch',manga:'Ch',comic:'#',novel:'Ch',game:'Pt'}[t]||'Ch'}
+function chLabel(t){return{anime:'Episodes',manhwa:'Chapters',manhua:'Chapters',manga:'Chapters',comic:'Issues',novel:'Chapters',game:'Guides'}[t]||'Chapters'}
+function typeBadge(t){return TM[t]?.cls||'tag-manhwa'}
+function statusCls(s){return s==='ongoing'?'s-ongoing':s==='completed'?'s-completed':'s-hiatus'}
+function toast(msg,type='i'){const el=document.createElement('div');el.className='toast toast-'+type;el.innerHTML='<span>'+({s:'✓',e:'✕',i:'ℹ'}[type]||'ℹ')+'</span><span>'+esc(msg)+'</span>';const box=document.getElementById('toastBox');if(box)box.appendChild(el);setTimeout(()=>{el.style.cssText='opacity:0;transition:opacity .4s';setTimeout(()=>el.remove(),400)},3000)}
+function ytembed(url){if(!url)return null;const yt=url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt)return'https://www.youtube.com/embed/'+yt[1]+'?rel=0';const vi=url.match(/vimeo\.com\/(\d+)/);if(vi)return'https://player.vimeo.com/video/'+vi[1];return url}
+function logAct(action,detail,user){const logs=S.g('actlog')||[];logs.unshift({id:uid(),action,detail,user:user||'System',ts:Date.now()});S.s('actlog',logs.slice(0,100))}
+
+/* ── AUTH ── */
+const AUTH={
+  admins(){return S.g('admins')||[]},
+  saveAdmins(u){S.s('admins',u)},
+  login(user,pw){
+    if(pw===CFG._mp){const sess={username:'SuperAdmin',role:'SUPER',master:true,ts:Date.now()};S.s('sess',sess);logAct('login','SuperAdmin logged in','SuperAdmin');return sess}
+    const u=this.admins().find(a=>a.username===user&&a.password===pw&&a.active!==false);
+    if(u){const sess={username:u.username,role:u.role,id:u.id,ts:Date.now()};S.s('sess',sess);logAct('login',`${u.username} logged in`,u.username);return sess}
+    return null
+  },
+  logout(){const s=this.sess();if(s)logAct('logout',`${s.username} logged out`,s.username);S.d('sess')},
+  sess(){return S.g('sess')},
+  ok(){return!!this.sess()},
+  isSuper(){const s=this.sess();return s?.role==='SUPER'},
+  canEdit(){const s=this.sess();return s&&['SUPER','EDITOR'].includes(s.role)},
+  canUpload(){return!!this.sess()},
+  addAdmin(username,password,role){
+    const all=this.admins();if(all.find(a=>a.username===username))return{ok:false,err:'Username already taken'};
+    all.push({id:uid(),username,password,role,active:true,createdAt:today()});this.saveAdmins(all);
+    logAct('admin_add',`Appointed: ${username} (${role})`,this.sess()?.username);return{ok:true}
+  },
+  removeAdmin(id){const all=this.admins();const u=all.find(a=>a.id===id);this.saveAdmins(all.filter(a=>a.id!==id));if(u)logAct('admin_rem',`Removed: ${u.username}`,this.sess()?.username)},
+  toggleAdmin(id){const all=this.admins();const i=all.findIndex(a=>a.id===id);if(i>=0){all[i].active=!all[i].active;this.saveAdmins(all)}},
+  updateRole(id,role){const all=this.admins();const i=all.findIndex(a=>a.id===id);if(i>=0){all[i].role=role;this.saveAdmins(all);logAct('role_chg',`${all[i].username} → ${role}`,this.sess()?.username)}},
+  updatePw(id,pw){const all=this.admins();const i=all.findIndex(a=>a.id===id);if(i>=0){all[i].password=pw;this.saveAdmins(all)}}
+};
+
+/* ── DB ── */
+const DB={
+  all(){return S.g('series')||[]},save(d){S.s('series',d)},
+  get(id){return this.all().find(s=>s.id===id)||null},
+  add(s){const d=this.all();d.unshift(s);this.save(d);return s},
+  update(id,p){const d=this.all(),i=d.findIndex(s=>s.id===id);if(i<0)return null;d[i]={...d[i],...p,updatedAt:today()};this.save(d);return d[i]},
+  delete(id){this.save(this.all().filter(s=>s.id!==id))},
+  addCh(sid,ch){const d=this.all(),i=d.findIndex(s=>s.id===sid);if(i<0)return null;d[i].chapters=[...(d[i].chapters||[]),ch];d[i].updatedAt=today();this.save(d);return ch},
+  updateCh(sid,cid,p){const d=this.all(),si=d.findIndex(s=>s.id===sid);if(si<0)return null;const ci=d[si].chapters.findIndex(c=>c.id===cid);if(ci<0)return null;d[si].chapters[ci]={...d[si].chapters[ci],...p};this.save(d);return d[si].chapters[ci]},
+  deleteCh(sid,cid){const d=this.all(),si=d.findIndex(s=>s.id===sid);if(si<0)return;d[si].chapters=(d[si].chapters||[]).filter(c=>c.id!==cid);this.save(d)},
+  getCh(sid,cid){return(this.get(sid)?.chapters||[]).find(c=>c.id===cid)||null},
+  incViews(sid,cid){const d=this.all(),si=d.findIndex(s=>s.id===sid);if(si<0)return;d[si].views=(d[si].views||0)+1;if(cid){const ci=d[si].chapters?.findIndex(c=>c.id===cid);if(ci>=0)d[si].chapters[ci].views=(d[si].chapters[ci].views||0)+1}this.save(d)},
+  search(q,f={}){const lq=(q||'').toLowerCase();return this.all().filter(s=>{const mq=!lq||(s.title.toLowerCase().includes(lq)||(s.description||'').toLowerCase().includes(lq)||(s.author||'').toLowerCase().includes(lq)||(s.genres||[]).some(g=>g.toLowerCase().includes(lq)));const mt=!f.type||f.type==='all'||s.type===f.type;const mg=!f.genre||f.genre==='all'||(s.genres||[]).some(g=>g.toLowerCase()===f.genre.toLowerCase());const ms=!f.status||f.status==='all'||s.status===f.status;return mq&&mt&&mg&&ms})},
+  dup(id){const s=this.get(id);if(!s)return null;const ns={...JSON.parse(JSON.stringify(s)),id:uid(),title:s.title+' (Copy)',chapters:[],views:0,featured:false,createdAt:today(),updatedAt:today()};return this.add(ns)},
+  stats(){const a=this.all();return{total:a.length,chapters:a.reduce((n,s)=>n+(s.chapters||[]).length,0),views:a.reduce((n,s)=>n+(s.views||0),0),featured:a.filter(s=>s.featured).length,byType:Object.fromEntries(Object.keys(TM).map(t=>[t,a.filter(s=>s.type===t).length]))}}
+};
+
+/* ── USER ── */
+const USER={
+  bms(){return S.g('bm')||[]},isBm(id){return this.bms().includes(id)},
+  toggleBm(id){let b=this.bms();const was=b.includes(id);if(was)b=b.filter(x=>x!==id);else b=[...b,id];S.s('bm',b);toast(was?'Removed from library':'Added to Library ★',was?'i':'s');return!was},
+  hist(){return S.g('hist')||[]},
+  addHist(sid,cid){let h=this.hist().filter(x=>!(x.sid===sid&&x.cid===cid));h.unshift({sid,cid,t:Date.now()});S.s('hist',h.slice(0,60))},
+  rate(sid,r){const rs=S.g('ratings')||{};rs[sid]=r;S.s('ratings',rs);toast(`Rated ${r}/10 ★`,'s')},
+  getRating(sid){return(S.g('ratings')||{})[sid]||0}
+};
+
+/* ── SEED DATA ── */
+const SEED=[
+  {id:'aot001',title:'Attack on Titan',type:'anime',genres:['Action','Dark Fantasy','Drama'],status:'completed',author:'Hajime Isayama',artist:'MAPPA',year:2013,rating:9.9,ratingCount:2400000,views:95000000,featured:true,description:'Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid creatures called Titans, forcing humans to hide in walled cities. When those walls are breached, young Eren Yeager swears to kill every last Titan.',cover:'',chapters:[
+    {id:'aot-e1',number:1,title:'To You, 2000 Years From Now',type:'episode',summary:'In 845, the Colossal Titan breaches Wall Maria in Shiganshina. Eren watches in horror as a smiling Titan devours his mother Carla while he is dragged away by Mikasa. Escaping on a boat with refugees, Eren swears vengeance against all Titans. A Water Pillar named Giyu Tomioka redirects his rage — directing him to train under a retired master. The episode establishes the brutal stakes of a world where humanity lives at the mercy of monsters, and the cost of a single moment of complacency.',views:4200000,uploadDate:'2013-04-07'},
+    {id:'aot-e2',number:2,title:'That Day — The Fall of Shiganshina',type:'episode',summary:'Five years later, Eren, Mikasa, and Armin train with the 104th Corps. Flashbacks reveal the crushing aftermath of Wall Maria\'s fall — overcrowded refugee camps, a disastrous military expedition that cost thousands of lives, and grinding despair. The contrast with vigorous training sequences is sharp. Eren pushes himself relentlessly, fueled by an anger that never cooled.',views:3800000,uploadDate:'2013-04-14'},
+    {id:'aot-e3',number:3,title:'A Dim Light Amid Despair',type:'episode',summary:'Graduation day. Eren\'s ODM gear fails repeatedly until a faulty equipment swap is discovered. With a replacement, he passes instantly. Standing at the ceremony, he announces he will join the Survey Corps and go beyond the walls. Commander Erwin watches the boy with calculating eyes. The top ten graduates are announced, and the quiet politics of who joins which regiment begin.',views:3500000,uploadDate:'2013-04-21'}
+  ],createdAt:'2024-01-01',updatedAt:'2024-01-21'},
+  {id:'ds001',title:'Demon Slayer',type:'anime',genres:['Action','Supernatural','Drama'],status:'completed',author:'Koyoharu Gotouge',artist:'ufotable',year:2019,rating:9.5,ratingCount:1800000,views:72000000,featured:true,description:'Tanjiro Kamado returns home to find his family slaughtered by a demon. His sister Nezuko is the only survivor — but she has been transformed. He begins training to become a Demon Slayer and find a way to restore her humanity.',cover:'',chapters:[
+    {id:'ds-e1',number:1,title:'Cruelty',type:'episode',summary:'Tanjiro Kamado, a charcoal seller\'s son, stays overnight in town and returns the next morning to find his family massacred in the snow. His sister Nezuko is still breathing but has transformed into a demon. When she lunges, the Demon Slayer Giyu Tomioka intervenes — but Tanjiro throws himself between them. Something in the bond between the siblings gives Giyu pause. He redirects Tanjiro to the master Sakonji Urokodaki, setting the story in motion.',views:6100000,uploadDate:'2019-04-06'},
+    {id:'ds-e2',number:2,title:'Trainer Sakonji Urokodaki',type:'episode',summary:'Tanjiro carries Nezuko in a wooden box to protect her from sunlight. The journey up the mountain is brutal and trap-filled — all set by Urokodaki for intruders. Tanjiro passes them all. The retired Water Pillar, face hidden behind a tengu mask, is skeptical of training someone who carries a demon. Yet Nezuko\'s behavior — sleeping rather than killing — convinces him to test Tanjiro: climb a boulder before first snowfall. Training begins.',views:5400000,uploadDate:'2019-04-13'}
+  ],createdAt:'2024-01-01',updatedAt:'2024-01-13'},
+  {id:'sl001',title:'Shadow Ascent',type:'manhwa',genres:['Action','Fantasy','Adventure'],status:'ongoing',author:'ACGN Original',artist:'ACGN Studios',year:2024,rating:9.6,ratingCount:880000,views:38000000,featured:true,description:'Kang Jin-ho, ranked the weakest hunter in the nation, survives a catastrophic double dungeon. He discovers an ancient shadow system — one that lets him absorb monster abilities and command a legion of the undead.',cover:'',chapters:[
+    {id:'sl-c1',number:1,title:'The D-Rank Disgrace',type:'images',images:[],views:2800000,uploadDate:'2024-01-10'},
+    {id:'sl-c2',number:2,title:'The Double Dungeon',type:'images',images:[],views:2400000,uploadDate:'2024-01-17'},
+    {id:'sl-c3',number:3,title:'Arise',type:'images',images:[],views:2200000,uploadDate:'2024-01-24'}
+  ],createdAt:'2024-01-10',updatedAt:'2024-01-24'},
+  {id:'op001',title:'One Piece',type:'manga',genres:['Adventure','Action','Comedy'],status:'ongoing',author:'Eiichiro Oda',artist:'Eiichiro Oda',year:1997,rating:9.6,ratingCount:3200000,views:120000000,featured:true,description:'Monkey D. Luffy sets sail to find the legendary One Piece and become King of the Pirates. A crew of misfits, a world of mystery, and 25+ years of the greatest adventure in manga.',cover:'',chapters:[
+    {id:'op-c1',number:1,title:'Romance Dawn',type:'images',images:[],views:8500000,uploadDate:'2023-01-01'},
+    {id:'op-c2',number:2,title:'They Call Him Straw Hat Luffy',type:'images',images:[],views:7200000,uploadDate:'2023-01-08'}
+  ],createdAt:'2023-01-01',updatedAt:'2023-01-08'},
+  {id:'brs001',title:'Berserk',type:'manga',genres:['Dark Fantasy','Action','Horror'],status:'ongoing',author:'Kentaro Miura',artist:'Kentaro Miura',year:1989,rating:9.8,ratingCount:1900000,views:68000000,featured:true,description:'Guts — the Black Swordsman — wanders a dark medieval world wielding a massive iron sword. A masterwork of dark fantasy that defined the genre.',cover:'',chapters:[
+    {id:'brs-c1',number:1,title:'The Black Swordsman',type:'images',images:[],views:2800000,uploadDate:'2023-05-01'},
+    {id:'brs-c2',number:2,title:'The Brand',type:'images',images:[],views:2400000,uploadDate:'2023-05-15'}
+  ],createdAt:'2023-05-01',updatedAt:'2023-05-15'},
+  {id:'dpi001',title:'Dragon Path Immortal',type:'manhua',genres:['Cultivation','Action','Fantasy'],status:'ongoing',author:'Heavenly Dao Studio',artist:'Crimson Arts',year:2022,rating:8.9,ratingCount:420000,views:19000000,featured:false,description:'Yang Chen, born without a cultivation root, is expelled from his sect. On the day of his expulsion, a dying immortal passes him the Dragon Path — a forbidden cultivation method erased from all history.',cover:'',chapters:[
+    {id:'dpi-c1',number:1,title:'The Rootless',type:'images',images:[],views:880000,uploadDate:'2023-09-01'},
+    {id:'dpi-c2',number:2,title:'The Jade Slip',type:'images',images:[],views:760000,uploadDate:'2023-09-08'}
+  ],createdAt:'2023-09-01',updatedAt:'2023-09-08'},
+  {id:'tlr001',title:'The Last Ranker',type:'novel',genres:['Fantasy','Action','Isekai'],status:'ongoing',author:'ACGN Original',artist:'—',year:2024,rating:9.3,ratingCount:310000,views:12000000,featured:true,description:'In a world reshaped by interdimensional Gates, Kang Jun-seo is the weakest Hunter alive. When a dungeon trial leaves him clinically dead for eleven seconds, he wakes to a System notification that will change everything.',cover:'',chapters:[
+    {id:'tlr-c1',number:1,title:'The Disgrace of the Rankings',type:'text',uploadDate:'2024-03-01',views:1200000,content:`The notification appeared at 7:43 in the morning, which was, Kang Jun-seo thought, a perfectly cruel time for a man's career to implode.
+
+HUNTER ANNUAL REASSESSMENT — RESULTS POSTED.
+
+He'd known it was coming. He'd trained for six months specifically for this, sneaking early-morning sessions into the gym before his shifts at the Association building, eating properly for once, sleeping eight hours. And still, staring at the holographic panel floating above his desk in the Hunter Association's Seoul Branch B filing room, he felt the familiar cold settling into his chest.
+
+CLASS: D
+POWER LEVEL: 112
+RANK PERCENTILE: 2nd from bottom.
+
+Second from bottom. Not even last. Last would have been almost dignified — a clear endpoint, a floor. Second from bottom meant there was someone worse, which made him feel simultaneously better and immeasurably worse about himself.
+
+"Jun-seo." His supervisor, Park Byung-woo, appeared in the doorway without knocking. "We need to talk."
+
+Jun-seo closed the holographic panel. "I know what you're going to say."
+
+"Then this will be quick." Park sat on the edge of a filing cabinet. "The Association has a policy. D-Ranks below threshold get transferred to civilian support. Administrative work, logistics, nothing dangerous." He paused. "It's a good outcome for someone in your situation."
+
+In your situation. There it was.
+
+Jun-seo had been a Hunter for five years. Five years of Gates and dungeons and training, watching his classmates grow into B-Ranks and A-Ranks while his numbers crawled sideways and sometimes down. His talent level had been assessed as a nine out of a thousand-point scale. The instructors had told him, gently, that some people simply didn't have the gift. That there was honor in support roles.
+
+He had ignored them for five years.
+
+"I want one more dungeon run," he said.
+
+Park stared at him. "Jun-seo —"
+
+"One more. Solo. The E-Rank dungeon in Incheon last week — it's been cleared twice already, residuals only." He met the man's eyes. "I've given five years to this. Let me close it myself."
+
+Park was quiet for a long moment. Then he sighed and stood up. "File the clearance request. I'll approve it. But after this one, let it go. There's no shame in knowing your limits."
+
+Jun-seo nodded. He did not say what he was thinking, which was: I have been living at my limits for five years. I want to find out what's beyond them.
+
+He filed the clearance request at 8:00 AM. By noon he was standing at the entrance to the Incheon coastal dungeon, Gate shimmering blue-silver above the breakwater.
+
+He had no idea that he was about to die.
+
+He also had no idea that dying would be the best thing that ever happened to him.`},
+    {id:'tlr-c2',number:2,title:'Death by Eleven Seconds',type:'text',uploadDate:'2024-03-08',views:1050000,content:`The dungeon was beautiful, in the way that places built to kill things often are.
+
+Jun-seo had been in dozens of dungeons — always with teams, always in the rear echelon. This was his first time entering alone, and the first thing he noticed was the silence. No tactical chatter in his earpiece. Just the soft drip of phosphorescent water from the cavern ceiling and the distant sound of something breathing.
+
+The dungeon was rated E-Rank, barely above a training simulation. He found the first Goblins in a side chamber and dispatched them without much difficulty. He moved through three chambers methodically.
+
+Then he found the stairs going down.
+
+He should have turned around. He knew, standing at the top of those stairs and feeling the air change — colder, denser, carrying the particular metallic smell of high-concentration mana — that this was outside his parameters.
+
+Instead, he went down.
+
+The chamber at the bottom was the size of a cathedral. In the center of it, crouching over the bodies of what appeared to be an entire secondary Goblin population, was a Stone Troll. Grade C. Weight approximately four tons. Currently looking directly at him.
+
+Jun-seo had time for exactly one thought — oh, that's a Stone Troll — before it charged.
+
+The next three minutes were the worst of his life. He ran. He used every trick he knew, every piece of terrain. The Troll was patient: methodically cutting off every exit, waiting for the moment when he had nowhere left to go.
+
+That moment arrived when Jun-seo's heel caught on a rock and he went down hard.
+
+He lay there, looking up at the cavern ceiling, and had a single crystalline moment of absolute clarity: this is where it ends. Five years of refusing to accept his limitations, and his limitations had accepted him.
+
+The club came down.
+
+— — —
+
+He was clinically dead for eleven seconds.
+
+When the retrieval team found him — alerted by his emergency beacon — the medic would tell him that his heart had stopped for eleven seconds before resuming on its own. No explanation. Just stopped, then started again.
+
+He woke up on the dungeon floor, the Troll nowhere in sight. And floating in the air above him, in text that glowed with a light that came from nowhere and everywhere:
+
+SYSTEM INITIALIZATION COMPLETE.
+WELCOME, HOST.
+YOUR TRIAL HAS BEEN ACCEPTED.
+
+Jun-seo stared at it for a very long time.
+
+Then, slowly, he sat up. "...What trial?" he said, to no one.
+
+THE TRIAL OF THE VOID WALKER.
+YOU DIED. YOU RETURNED.
+YOU HAVE BEEN FOUND WORTHY.
+
+He had approximately ten thousand questions. But before he could ask any of them, the panel expanded — and the world quietly ceased to be the one he'd always known.`},
+    {id:'tlr-c3',number:3,title:'System Awakens',type:'text',uploadDate:'2024-03-15',views:980000,content:`The interface was unlike anything in the official Hunter System.
+
+Every registered Hunter had access to the Association's standard panel — a clean, government-issued overlay that tracked mana levels, skill proficiencies, health status. Jun-seo had stared at his version of it for five years, watching his numbers sit stubbornly low.
+
+This was not that.
+
+VOID WALKER SYSTEM v.0.1
+HOST: KANG JUN-SEO
+TRUE POWER LEVEL: [CALCULATING]
+CLASS: UNRANKED (INHERITOR)
+AVAILABLE FUNCTIONS:
+▸ SHADOW EXTRACTION
+▸ SHADOW ARMY
+▸ STAT ABSORPTION
+▸ [LOCKED — LEVEL REQUIREMENT NOT MET ×14]
+
+He sat with his back against the cavern wall for twenty minutes, reading every line three times. His hands were shaking.
+
+Shadow Extraction. He pressed the function.
+
+SHADOW EXTRACTION allows the host to extract the shadow of a defeated enemy and integrate it into the Shadow Army as a permanent soldier. Extracted shadows retain the combat abilities and physical characteristics of the original entity.
+
+He noticed then that the Stone Troll was dead. He had no memory of killing it. He'd been dead at the time. The system, apparently, had handled that part.
+
+He pointed at the Troll's shadow. "Extract?"
+
+SHADOW EXTRACTION: STONE TROLL / GRADE: C / CONFIRM?
+
+"Yes."
+
+The shadow moved. It pulled away from the Troll's body like a dark reflection separating from its source. It rose, took shape, and stood. A shadow-version of the Stone Troll, eyes glowing violet, looking at Jun-seo with absolute calm readiness.
+
+SHADOW TROLL (C-GRADE) — INTEGRATED
+SHADOW ARMY: 1/∞
+
+He opened his basic stat window.
+
+POWER LEVEL: 547
+
+Five hundred and forty-seven. Yesterday it had been 112.
+
+He sat in the dungeon for a very long time after that. Then he stood up. He was still injured. None of that had changed.
+
+But everything else had.
+
+He climbed out of the dungeon at dusk, the Incheon sea going orange-pink around him. For the first time in five years, he had more to think about than just his failures.`}
+  ],createdAt:'2024-03-01',updatedAt:'2024-03-15'},
+  {id:'dg001',title:'Digital God',type:'novel',genres:['Sci-Fi','Fantasy','Action'],status:'ongoing',author:'ACGN Original',artist:'—',year:2024,rating:8.7,ratingCount:145000,views:5200000,featured:false,description:'The world\'s top player in REALM ETERNAL logs in for the final server shutdown — and wakes up inside the game as his max-level character, with all his legendary items and game knowledge, in a world that has suddenly become real.',cover:'',chapters:[
+    {id:'dg-c1',number:1,title:'Game Over',type:'text',uploadDate:'2024-04-01',views:580000,content:`The countdown read 00:12:44 when Yoo Seung-min logged in for the last time.
+
+He'd been the top-ranked player in REALM ETERNAL for three years — which in practice meant he'd spent something close to fourteen thousand hours in the full-dive interface, a custom-built rig that simulated sensory input at 98.7% biological accuracy. Close enough to real that after a few weeks, you started to miss the virtual food when you were outside.
+
+The game was shutting down. NEXON had announced it a month ago. Six years of his life — friendships atrophied, job offers declined, most of his waking attention living in a body that wasn't technically his. He existed in the real world as a function of necessity.
+
+00:05:00.
+
+He teleported to his favorite spot: the Apex Observatory, at the absolute top of the world's highest mountain, above the cloud layer. He sat on the observatory railing and watched.
+
+00:01:00.
+
+He thought about what came after. Packing up the rig. Getting a real job. Re-learning what it felt like to live with limits.
+
+00:00:10.
+
+The sky began to fracture — glitch lines, servers starting to spin down. He'd expected this. He closed his eyes.
+
+And then something happened that was not in the shutdown protocol.
+
+The fractured sky exploded with light. Not glitch-light — something coherent, directed, as if the sky itself was downloading something. The light hit him like a physical force, and he felt the familiar lurch of full-dive disconnecting —
+
+Except it didn't disconnect.
+
+He opened his eyes. He was still in REALM ETERNAL. His character's hands — his hands now — were solid. Real. He could feel the stone railing with something that was not 98.7% accuracy. It was 100%.
+
+His interface appeared, and in the center of it, a message in a font that looked carved rather than rendered:
+
+THE SERVERS DID NOT SHUT DOWN.
+THE WORLD HAS BEEN TRANSFERRED.
+THIS IS NO LONGER A GAME.
+WELCOME HOME, EREBUS.
+
+Seung-min sat down very hard on the observatory floor and stared at nothing for a while.
+
+Then, with the calm of a person who has spent three years solving problems under pressure, he opened his stat window, checked his inventory, tested his skills, and began to plan.
+
+He had max stats, legendary equipment, and complete knowledge of every dungeon, quest, faction, and political structure in this world.
+
+He was about to find out what any of that was actually worth.`}
+  ],createdAt:'2024-04-01',updatedAt:'2024-04-01'},
+  {id:'roe001',title:'Realm of Eternia',type:'game',genres:['Fantasy','Adventure','RPG'],status:'ongoing',author:'ACGN Games',artist:'Eternia Studio',year:2024,rating:9.1,ratingCount:280000,views:8400000,featured:false,description:'The definitive fantasy MMORPG of 2024. 12 classes, 400+ dungeons, dynamic world economy, player-built cities, and a 300+ hour main questline. Official guides hosted on ACGN.',cover:'',chapters:[
+    {id:'roe-g1',number:1,title:"Beginner's Complete Guide",type:'text',uploadDate:'2024-05-01',views:920000,content:`Welcome to Realm of Eternia. This guide covers everything you need to get started, survive your first week, and make smart decisions that will pay off for hundreds of hours.
+
+### Choosing Your Class
+
+Realm of Eternia has 12 classes in three archetypes. Your class is permanent — read carefully before choosing.
+
+WARRIOR ARCHETYPE — High durability, melee focus.
+- Berserker: Highest single-target damage. Rage mechanic grows stronger as HP drops. High skill ceiling, punishing to beginners.
+- Guardian: Definitive tank. Massive health, high defense, party shields. Essential in endgame raids.
+- Knight: Balanced melee with support skills. Most forgiving class. Best choice for new players.
+
+MAGE ARCHETYPE — High damage, fragile.
+- Pyromancer: Area-of-effect specialist. Clears groups fast, weaker in boss fights.
+- Void Mage: Single-target and debuff specialist. Highest damage ceiling, very hard to master.
+- Wind Dancer: Mobility mage. Blink skills, crowd control. Best for players who prefer movement.
+
+RANGER ARCHETYPE — Mid-to-long range, agile.
+- Shadow Hunter: Stealth, traps, burst damage. Excellent solo choice.
+- Beast Tamer: Summons animals. Most unique playstyle. High learning curve.
+- Runic Archer: Ranged physical with magic infusion. Consistent, great utility.
+
+RECOMMENDATION: Knight or Runic Archer for new players. Both are forgiving and handle solo early content well.
+
+### Your First Hour
+
+Talk to every NPC with a golden icon — these are Questgivers. Focus on:
+1. Complete the Tutorial Chain "A New Dawn" — gives starting gear, 500 Gold, and the rare First Adventurer title.
+2. Register at the Adventurer's Guild — unlocks the daily quest board, the most efficient early Gold source.
+3. The barrel behind the blacksmith hides a Beginner's Lucky Box. One per account. Grab it immediately.
+
+### Combat Basics
+
+Realm of Eternia uses a three-system combat loop: Stance switching (Offensive / Defensive / Balanced), the Break Gauge, and elemental weaknesses.
+
+Always check an enemy's weakness before entering a dungeon. Hitting a weakness deals 50% bonus damage. The Break Gauge resets enemy actions and creates a burst window when depleted.
+
+### First Dungeon
+
+The Goblin Warrens (available from Level 5) is the first dungeon. Most players can solo-clear it by Level 8. Kill the two drum-Goblins first in the boss room — they continuously buff Chief Gruk if left alive.`},
+    {id:'roe-g2',number:2,title:'Combat Deep Dive',type:'text',uploadDate:'2024-05-08',views:780000,content:`Realm of Eternia's combat system is one of the most rewarding in the MMORPG genre. Here is a complete breakdown of every mechanic.
+
+### The Stance System
+
+Switch in real time between three stances:
+- Offensive: +25% damage, -15% defense
+- Defensive: +25% defense, -15% damage
+- Balanced: Default, no bonus or penalty
+
+The optimal approach is dynamic switching: Defensive before a telegraphed attack lands, Offensive during your skill window. Players who master stance timing deal dramatically more effective damage than those who stay in Offensive the whole fight.
+
+### The Break Gauge
+
+Every enemy has a yellow Break Gauge. Deplete it to trigger the Broken state (6–8 seconds of reduced defense, no attacks, your burst window opens).
+
+Break efficiency by attack type: Blunt (100%), Thrust (75%), Slash (50%), Magic (variable by element).
+
+Save your highest-damage skill for the first second of the Broken state, then chain your remaining cooldowns.
+
+### Elemental System
+
+Seven elements: Fire, Water, Wind, Earth, Lightning, Shadow, Holy. Every enemy has a weakness and a resistance. Check before entering — the difference between hitting a weakness and a resistance can be 75% damage variation.
+
+### Status Effects
+
+Burn (fire DoT), Freeze (70% movement reduction — shatter with Blunt for bonus damage), Shock (interrupts skills), Poison (ignores defense), Bleed (scales with STR), Silence (no skills), Stun (2–4 sec no action).
+
+Advanced combinations: Burn + Poison = Toxic Flame (double DoT rate). Shock + Freeze = Crystalline Static (+25% lightning damage on frozen target). These combinations are the foundation of the Alchemist class's identity.
+
+### Dodge Windows
+
+The dodge roll grants 0.4 seconds of invincibility frames at the start of the animation. Many attacks that appear unavoidable can be dodged with exact timing. Learning enemy tells — the 0.3 to 0.8 second animation that precedes an attack — is what separates good players from great ones. Red tells are unavoidable (run from AoE). Orange requires strict timing. Yellow is comfortable.`}
+  ],createdAt:'2024-05-01',updatedAt:'2024-05-08'},
+  {id:'sk001',title:'Shadow Knight',type:'comic',genres:['Action','Dark Fantasy','Supernatural'],status:'ongoing',author:'Marcus Reyn',artist:'Ellie Cross',year:2024,rating:8.8,ratingCount:124000,views:4800000,featured:false,description:'Retired detective Cole Navarro works cold cases by day. By night, he wears the Shadow Knight armor — an ancient relic that bonds to worthy hosts and grants powers drawn from darkness itself. The armor has its own agenda.',cover:'',chapters:[
+    {id:'sk-c1',number:1,title:'Origin — Part 1',type:'images',images:[],views:420000,uploadDate:'2024-02-01'},
+    {id:'sk-c2',number:2,title:'Origin — Part 2',type:'images',images:[],views:380000,uploadDate:'2024-02-15'}
+  ],createdAt:'2024-02-01',updatedAt:'2024-02-15'}
+];
+function initDB(){if(!S.g('seeded')){S.s('series',SEED);S.s('seeded',1);logAct('system','Database seeded with default data','System')}}
+
+/* ── APP STATE ── */
+const ST={view:'home',params:{},search:'',fType:'all',fGenre:'all',fStatus:'all',fSort:'popular',chSort:'asc',fontSize:18,admPage:'dashboard',admParams:{},admSearch:'',admMediaFilter:'all',selSeries:new Set(),notifOpen:false};
+
+/* ═══════════════════════════════════════════════
+   ADMIN PANEL
+═══════════════════════════════════════════════ */
+const ADM={
+  open(){document.getElementById('adminOverlay').classList.add('open');if(!AUTH.ok())this.renderLogin();else this.renderFull()},
+  close(){document.getElementById('adminOverlay').classList.remove('open');ST.notifOpen=false},
+  logout(){AUTH.logout();toast('Logged out','i');this.renderLogin();render()},
+  renderLogin(){
+    document.getElementById('aSidebar').style.transform='translateX(-100%)';
+    document.getElementById('aMain').innerHTML=`<div class="admin-login-wrap"><div class="admin-login-box">
+      <div class="al-logo">ACG<span>N</span></div>
+      <div class="al-sub">Admin Portal · Secure Access</div>
+      <div class="login-err" id="loginErr">Invalid credentials. Please try again.</div>
+      <form onsubmit="ADM.doLogin(event)" style="display:flex;flex-direction:column;gap:.9rem">
+        <div class="ff"><label class="ff-label">Username</label><input type="text" name="user" class="ff-input" placeholder="Username" autocomplete="username"></div>
+        <div class="ff"><label class="ff-label">Password</label><input type="password" name="pw" class="ff-input" placeholder="Password" autocomplete="current-password" required></div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;margin-top:.5rem">Login →</button>
+      </form>
+      <div class="al-divider">or</div>
+      <button onclick="ADM.close()" style="width:100%;padding:.5rem;background:none;border:1px solid var(--bdr);border-radius:4px;color:var(--muted);font-size:.84rem;cursor:pointer">Cancel</button>
+    </div></div>`
+  },
+  doLogin(e){
+    e.preventDefault();const fd=new FormData(e.target);
+    const sess=AUTH.login(fd.get('user'),fd.get('pw'));
+    if(sess){document.getElementById('adminFAB').classList.remove('hidden');toast(`Welcome, ${sess.username}!`,'s');this.renderFull();render()}
+    else{const el=document.getElementById('loginErr');if(el){el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000)}}
+  },
+  renderFull(){
+    const s=AUTH.sess();const sb=document.getElementById('aSidebar');sb.style.transform='';
+    const rc={SUPER:'var(--gold)',EDITOR:'var(--accent)',UPLOADER:'var(--novel)'}[s.role]||'var(--muted)';
+    const roleLbl={SUPER:'Super Admin',EDITOR:'Editor',UPLOADER:'Uploader'}[s.role]||s.role;
+    document.getElementById('aUserCard').innerHTML=`<div class="auc-avatar" style="background:${rc}22;border-color:${rc}44;color:${rc}">${(s.username||'A')[0].toUpperCase()}</div><div><div class="auc-name">${esc(s.username)}</div><div class="auc-role" style="color:${rc}">${roleLbl}</div></div>`;
+    this.buildNav();this.loadPage(ST.admPage)
+  },
+  buildNav(){
+    const isSuper=AUTH.isSuper(),canEdit=AUTH.canEdit();
+    const items=[
+      {s:'Content',id:'dashboard',icon:'📊',lbl:'Dashboard'},
+      {s:null,id:'series',icon:'📚',lbl:'Library'},
+      canEdit?{s:null,id:'addseries',icon:'➕',lbl:'Add Series'}:null,
+      {s:'Media',id:'media',icon:'🗂️',lbl:'Media Library'},
+      {s:null,id:'chapters',icon:'📄',lbl:'Chapters',badge:()=>fmtN(DB.stats().chapters)},
+      {s:'Insights',id:'analytics',icon:'📈',lbl:'Analytics'},
+      {s:null,id:'activity',icon:'📋',lbl:'Activity Log'},
+      isSuper?{s:'Admin',id:'team',icon:'👥',lbl:'Team Management'}:null,
+      isSuper?{s:null,id:'settings',icon:'⚙️',lbl:'Settings'}:null,
+    ].filter(Boolean);
+    let last='',html='';
+    for(const it of items){
+      if(it.s&&it.s!==last){html+=`<div class="anav-sec">${it.s}</div>`;last=it.s}
+      const b=it.badge?it.badge():null;
+      html+=`<button class="anav-item${ST.admPage===it.id?' active':''}" onclick="ADM.goto('${it.id}')"><span class="anav-icon">${it.icon}</span><span>${it.lbl}</span>${b?`<span class="anav-badge">${b}</span>`:''}</button>`
+    }
+    document.getElementById('aNavMenu').innerHTML=html
+  },
+  goto(page,params={}){ST.admPage=page;ST.admParams={...params};ST.selSeries.clear();this.buildNav();this.loadPage(page)},
+  loadPage(page){
+    const el=document.getElementById('aContent'),bc=document.getElementById('aBc');
+    const labels={dashboard:'Dashboard',series:'Library',addseries:'Add Series',editseries:'Edit Series',media:'Media Library',chapters:'Chapters',seriesChs:'Series Chapters',addchapter:'Add Chapter',editchapter:'Edit Chapter',analytics:'Analytics',activity:'Activity Log',team:'Team',settings:'Settings'};
+    bc.innerHTML=`Admin › <span>${labels[page]||page}</span>`;
+    el.innerHTML='<div style="padding:4rem;text-align:center;color:var(--muted);font-family:\'JetBrains Mono\',monospace;font-size:.65rem;letter-spacing:.2em">LOADING...</div>';
+    requestAnimationFrame(()=>{try{el.innerHTML=this.getPage(page)}catch(e){el.innerHTML=`<div style="padding:2rem;color:var(--anime)">${e.message}</div>`}this.bindPage(page)})
+  },
+  bindPage(page){
+    const sf=document.getElementById('aSeriesForm');if(sf)sf.onsubmit=e=>this.submitSeries(e);
+    const cf=document.getElementById('aChForm');if(cf)cf.onsubmit=e=>this.submitChapter(e);
+    const pf=document.getElementById('aPwForm');if(pf)pf.onsubmit=e=>this.submitPw(e);
+    const af=document.getElementById('aAddAdminForm');if(af)af.onsubmit=e=>this.submitAdmin(e);
+    const ct=document.getElementById('chTA');const wc=document.getElementById('wc');if(ct&&wc){const u=()=>{wc.textContent=(ct.value||'').split(/\s+/).filter(Boolean).length+' words'};ct.oninput=u;u()}
+    const cuf=document.getElementById('coverFileInp');if(cuf)cuf.onchange=()=>this.handleCoverFile(cuf);
+    const puf=document.getElementById('pageFileInp');if(puf)puf.onchange=()=>this.handlePageFiles(puf);
+    const muf=document.getElementById('mediaUpInp');if(muf)muf.onchange=()=>this.handleMediaUpload(muf);
+    const asi=document.getElementById('aSearchInput');if(asi)asi.oninput=deb(e=>{ST.admSearch=e.target.value;if(['series','media'].includes(ST.admPage))this.loadPage(ST.admPage)},300);
+    const desc=document.getElementById('ff_desc');if(desc){const c=document.getElementById('descCt');if(c){const u=()=>c.textContent=desc.value.length+'/2000';desc.oninput=u;u()}}
+    const vurl=document.getElementById('videoUrlInp');if(vurl)vurl.oninput=()=>this.previewVideo(vurl.value);
+    const pdfInp=document.getElementById('pdfFileInp');if(pdfInp)pdfInp.onchange=()=>this.handlePDFUpload(pdfInp);
+    // Show localStorage usage in settings
+    const lsEl=document.getElementById('lsUsed');
+    if(lsEl){let t=0;try{for(const k in localStorage){if(k.startsWith('acgn_'))t+=localStorage.getItem(k).length}}catch{}lsEl.textContent=(t/1024).toFixed(0)+'KB'}
+  },
+  toggleNotif(){ST.notifOpen=!ST.notifOpen;const p=document.getElementById('aNotifPanel');if(ST.notifOpen){p.style.display='block';const acts=(S.g('actlog')||[]).slice(0,8);const icons={login:'🔑',logout:'🚪',series_created:'✨',series_updated:'✏️',ch_created:'📝',ch_deleted:'🗑️',delete:'🗑️',admin_add:'👤',admin_rem:'🚫',role_chg:'🎭',system:'⚙️'};p.innerHTML=`<div style="padding:.85rem 1.1rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:.88rem"><span>Recent Activity</span><button onclick="ST.notifOpen=false;document.getElementById('aNotifPanel').style.display='none'" style="background:none;border:none;color:var(--muted);cursor:pointer">✕</button></div>${acts.length?acts.map(a=>`<div style="padding:.65rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer" class="act-item"><div class="act-icon">${icons[a.action]||'📋'}</div><div class="act-info"><div class="act-desc">${esc(a.detail)}</div><div class="act-meta"><span style="color:var(--accent)">${esc(a.user)}</span><span>${ago(a.ts)}</span></div></div></div>`).join(''):'<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:.82rem">No activity yet.</div>'}`}else p.style.display='none'},
+  getPage(page){return({dashboard:()=>this.pgDashboard(),series:()=>this.pgSeries(),addseries:()=>this.pgEditSeries(null),editseries:()=>this.pgEditSeries(ST.admParams.id),media:()=>this.pgMedia(),chapters:()=>this.pgChapters(),seriesChs:()=>this.pgSeriesChs(ST.admParams.sid),addchapter:()=>this.pgEditChapter(ST.admParams.sid,null),editchapter:()=>this.pgEditChapter(ST.admParams.sid,ST.admParams.cid),analytics:()=>this.pgAnalytics(),activity:()=>this.pgActivity(),team:()=>this.pgTeam(),settings:()=>this.pgSettings()}[page]||this.pgDashboard)()},
+  // ─ Cover helpers ─
+  previewCoverURL(url){const a=document.getElementById('coverDropArea');if(!a)return;let img=a.querySelector('.cover-preview');const hint=a.querySelector('.cover-drop-hint');if(url){if(!img){img=document.createElement('img');img.className='cover-preview';a.appendChild(img)}img.src=url;img.onerror=()=>{img.remove();if(hint)hint.style.display=''};a.classList.add('has-img');if(hint)hint.style.display='none'}else{img?.remove();a.classList.remove('has-img');if(hint)hint.style.display=''}},
+  handleCoverFile(inp){
+    const f=inp.files[0];if(!f)return;
+    toast('Compressing cover…','i');
+    IMG.cover(f).then(data=>{
+      const ci=document.getElementById('coverUrlInp');if(ci)ci.value=data;
+      this.previewCoverURL(data);toast('Cover ready ✓','s');
+    }).catch(e=>{toast('Cover error: '+e.message,'e')});
+  },
+  handlePageFiles(inp){
+    const files=Array.from(inp.files);if(!files.length)return;
+    const prog=document.getElementById('upProg');const bar=document.getElementById('upBar');
+    if(prog)prog.style.display='block';
+    const results=new Array(files.length);let done=0;
+    files.forEach((f,i)=>{
+      IMG.page(f).then(data=>{
+        results[i]=data;done++;
+        if(bar)bar.style.width=(done/files.length*100)+'%';
+        if(done===files.length){
+          const ta=document.getElementById('imgUrlsTA');
+          if(ta){const ex=(ta.value||'').trim();ta.value=(ex?ex+'\n':'')+results.join('\n')}
+          if(prog)setTimeout(()=>prog.style.display='none',600);
+          toast(files.length+' page(s) compressed & added ✓','s');
+        }
+      }).catch(()=>{
+        const r=new FileReader();r.onload=e=>{results[i]=e.target.result;done++;
+          if(bar)bar.style.width=(done/files.length*100)+'%';
+          if(done===files.length){const ta=document.getElementById('imgUrlsTA');if(ta){const ex=(ta.value||'').trim();ta.value=(ex?ex+'\n':'')+results.join('\n')}if(prog)prog.style.display='none';toast(files.length+' page(s) added','s')}
+        };r.readAsDataURL(f);
+      });
+    });
+  },
+  async handleMediaUpload(inp){
+    const files=Array.from(inp.files);if(!files.length)return;
+    let done=0;const total=files.length;
+    toast('Uploading '+total+' file(s)…','i');
+    for(const f of files){
+      const mt=f.type.startsWith('image/')?'image':f.type.startsWith('video/')?'video':f.type==='application/pdf'?'pdf':f.type.startsWith('audio/')?'audio':'other';
+      try{
+        let meta={name:f.name,mediaType:mt,mimeType:f.type,size:f.size,uploadedBy:AUTH.sess()?.username};
+        if(mt==='image'){
+          // Compress full image for IDB, tiny thumb for metadata display
+          const[full,thumb]=await Promise.all([IMG.compress(f,1400,0.85),IMG.thumb(f)]);
+          meta.thumb=thumb;meta.data=full;
+        }else{
+          // Read as dataURL, pass to MEDIA.add which stores in IDB under 'media_<id>'
+          await new Promise((res,rej)=>{const r=new FileReader();r.onload=e=>{meta.data=e.target.result;res()};r.onerror=rej;r.readAsDataURL(f)});
+        }
+        await MEDIA.add(meta);
+        done++;
+        if(done===total){toast(total+' file(s) uploaded ✓','s');this.loadPage('media')}
+      }catch(e){done++;toast('Error with '+f.name+': '+e.message,'e');if(done===total)this.loadPage('media')}
+    }
+  },
+  async handlePDFUpload(inp){
+    const f=inp.files[0];if(!f)return;
+    toast('Storing PDF in browser database…','i');
+    try{
+      const key=await IDB.storeFile(f,'pdf');
+      const hi=document.getElementById('pdfDataHidden');if(hi)hi.value='idb:'+key;
+      // Create temporary blob URL for preview
+      const blobUrl=await IDB.blobUrl(key);
+      const pw=document.getElementById('pdfPrev');
+      if(pw&&blobUrl){pw.style.display='';const fr=pw.querySelector('iframe');if(fr)fr.src=blobUrl}
+      toast('PDF ready ✓ (stored in browser database)','s');
+    }catch(e){toast('PDF error: '+e.message,'e')}
+  },
+  previewVideo(url){const box=document.getElementById('videoPrevBox');if(!box)return;const e=ytembed(url);if(e&&url)box.innerHTML=`<iframe src="${esc(e)}" allowfullscreen style="width:100%;height:100%;border:none"></iframe>`;else box.innerHTML='<span style="color:var(--muted);font-size:.85rem">Enter a URL to preview</span>'},
+  syncGenres(){const b=document.querySelectorAll('.g-toggle.on');const h=document.getElementById('genresH');if(h)h.value=Array.from(b).map(b=>b.textContent.trim()).join(',')},
+  switchChType(ct){document.querySelectorAll('.ct-tab').forEach(t=>t.classList.toggle('on',t.dataset.ct===ct));['images','text','episode','video','pdf'].forEach(p=>{const el=document.getElementById('panel_'+p);if(el)el.style.display=p===ct?'':'none'});const h=document.getElementById('ctHidden');if(h)h.value=ct},
+  toggleSelect(id,on){if(on)ST.selSeries.add(id);else ST.selSeries.delete(id);const bb=document.getElementById('bulkBar');if(bb){bb.classList.toggle('show',ST.selSeries.size>0);const bc=bb.querySelector('.bulk-cnt');if(bc)bc.textContent=ST.selSeries.size+' selected'}},
+  toggleSelectAll(on){document.querySelectorAll('.series-cb').forEach(cb=>{cb.checked=on;const id=cb.dataset.id;if(on)ST.selSeries.add(id);else ST.selSeries.delete(id)});const bb=document.getElementById('bulkBar');if(bb)bb.classList.toggle('show',ST.selSeries.size>0)},
+  bulkDelete(){if(!ST.selSeries.size)return;if(!confirm(`Delete ${ST.selSeries.size} series and all their chapters?`))return;ST.selSeries.forEach(id=>{DB.delete(id)});logAct('delete',`Bulk deleted ${ST.selSeries.size} series`,AUTH.sess()?.username);toast(`${ST.selSeries.size} deleted`,'i');ST.selSeries.clear();this.goto('series');render()},
+  delSeries(id){if(!confirm('Delete this series and all its chapters?'))return;const s=DB.get(id);DB.delete(id);logAct('delete',`Deleted: ${s?.title}`,AUTH.sess()?.username);toast('Deleted','i');this.goto('series');render()},
+  dupSeries(id){const s=DB.dup(id);if(s){toast(`Duplicated as "${s.title}"`,'s');this.goto('editseries',{id:s.id});render()}},
+  delChapter(sid,cid){if(!confirm('Delete this chapter?'))return;DB.deleteCh(sid,cid);logAct('ch_deleted','Chapter deleted',AUTH.sess()?.username);toast('Chapter deleted','i');this.goto('seriesChs',{sid});render()},
+  async delMedia(id){if(!confirm('Delete this media file?'))return;await MEDIA.del(id);toast('Deleted','i');this.loadPage('media')},
+  removeAdmin(id){if(!confirm('Remove this admin user?'))return;AUTH.removeAdmin(id);toast('Removed','i');this.goto('team')},
+  sRowSimple(s){return`<tr><td><div style="display:flex;align-items:center;gap:.6rem"><div class="a-mini-cover">${s.cover?`<img src="${esc(s.cover)}" alt="" onerror="this.parentElement.style.background='${grad(s.id)}'">`:`<span style="background:${grad(s.id)};width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:rgba(255,255,255,.2)">${s.title[0]}</span>`}</div><div><div class="tcell-title">${esc(s.title)}</div><div class="tcell-sub">${esc(s.author)}</div></div></div></td><td><span class="sc-type-tag ${typeBadge(s.type)}" style="position:static">${s.type}</span></td><td><span class="sc-status ${statusCls(s.status)}" style="position:static">${s.status}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${(s.chapters||[]).length}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${fmtN(s.views||0)}</td><td style="font-size:.76rem;color:var(--muted)">${fmtD(s.updatedAt)}</td><td><div class="tbl-acts"><button class="ta" onclick="ADM.goto('seriesChs',{sid:'${s.id}'})">📄</button><button class="ta edit" onclick="ADM.goto('editseries',{id:'${s.id}'})">Edit</button><button class="ta del" onclick="ADM.delSeries('${s.id}')">Del</button></div></td></tr>`},
+  // ─ Series row with checkbox (used in Library page) ─
+  sRow(s){const u=chUnit(s.type);return`<tr><td><input type="checkbox" class="acb series-cb" data-id="${s.id}" ${ST.selSeries.has(s.id)?'checked':''} onchange="ADM.toggleSelect('${s.id}',this.checked)"></td><td><div class="a-mini-cover">${s.cover?`<img src="${esc(s.cover)}" alt="" onerror="this.parentElement.style.background=\'${grad(s.id)}\'">`:`<span style="background:${grad(s.id)};width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:rgba(255,255,255,.2)">${s.title[0]}</span>`}</div></td><td><div class="tcell-title">${esc(s.title)}</div><div class="tcell-sub">${esc(s.author)}</div></td><td><span class="sc-type-tag ${typeBadge(s.type)}" style="position:static">${s.type}</span></td><td><span class="sc-status ${statusCls(s.status)}" style="position:static">${s.status}</span></td><td style="font-size:.9rem">${s.featured?'⭐':''}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${(s.chapters||[]).length}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${fmtN(s.views||0)}</td><td style="font-size:.76rem;color:var(--muted)">${fmtD(s.updatedAt)}</td><td><div class="tbl-acts"><button class="ta" onclick="ADM.goto('seriesChs',{sid:'${s.id}'})">📄</button><button class="ta edit" onclick="ADM.goto('editseries',{id:'${s.id}'})">Edit</button><button class="ta" onclick="ADM.dupSeries('${s.id}')" title="Duplicate">⧉</button><button class="ta del" onclick="ADM.delSeries('${s.id}')">Del</button></div></td></tr>`},
+  // ─ Series form ─
+  seriesForm(s=null){const g=s?.genres||[];return`<div class="a-form-sec">Basic Info</div>
+    <div class="fg"><div class="ff"><label class="ff-label">Title <span class="ff-req">*</span></label><input name="title" class="ff-input" value="${esc(s?.title||'')}" required maxlength="200" placeholder="Series title"></div>
+    <div class="ff"><label class="ff-label">Author <span class="ff-req">*</span></label><input name="author" class="ff-input" value="${esc(s?.author||'')}" required placeholder="Author / Studio"></div>
+    <div class="ff"><label class="ff-label">Artist</label><input name="artist" class="ff-input" value="${esc(s?.artist||'')}" placeholder="Illustrator"></div>
+    <div class="ff"><label class="ff-label">Year</label><input type="number" name="year" class="ff-input" value="${s?.year||new Date().getFullYear()}" min="1900" max="2099"></div>
+    <div class="ff"><label class="ff-label">Type <span class="ff-req">*</span></label><select name="type" class="ff-select">${Object.entries(TM).map(([t,m])=>`<option value="${t}"${s?.type===t?' selected':''}>${m.e} ${m.l}</option>`).join('')}</select></div>
+    <div class="ff"><label class="ff-label">Status</label><select name="status" class="ff-select"><option value="ongoing"${(!s||s.status==='ongoing')?' selected':''}>🟢 Ongoing</option><option value="completed"${s?.status==='completed'?' selected':''}>✅ Completed</option><option value="hiatus"${s?.status==='hiatus'?' selected':''}>⏸ Hiatus</option></select></div>
+    <div class="ff"><label class="ff-label">Rating</label><input type="number" name="rating" class="ff-input" value="${s?.rating||8.5}" min="1" max="10" step="0.1"></div>
+    <div class="ff"><label class="ff-label">Vote Count</label><input type="number" name="ratingCount" class="ff-input" value="${s?.ratingCount||0}" min="0"></div></div>
+    <div class="ff" style="margin-top:1rem"><label class="ff-label">Description <span class="ff-req">*</span></label><textarea id="ff_desc" name="description" class="ff-textarea" rows="6" required maxlength="2000" placeholder="Series synopsis...">${esc(s?.description||'')}</textarea><div class="char-ct" id="descCt">${(s?.description||'').length}/2000</div></div>
+    <div class="a-form-sec">Cover Image</div>
+    <div class="fg"><div class="ff full"><label class="ff-label">Cover URL</label><input id="coverUrlInp" name="cover" class="ff-input" value="${esc(s?.cover||'')}" placeholder="https://... or paste image URL" oninput="ADM.previewCoverURL(this.value)"><div class="ff-hint">Paste a direct image URL, or upload below.</div></div>
+    <div class="ff"><label class="ff-label">Upload Cover File</label><div class="cover-drop" id="coverDropArea">${s?.cover?`<img class="cover-preview" src="${esc(s.cover)}" alt=""><input type="file" id="coverFileInp" accept="image/*">`:`<input type="file" id="coverFileInp" accept="image/*"><div class="cover-drop-hint"><div style="font-size:2rem;margin-bottom:.4rem">📷</div><div>Click or drag · <span>JPG PNG WEBP GIF</span></div></div>`}</div></div></div>
+    <div class="a-form-sec">Genres & Settings</div>
+    <div class="ff full"><label class="ff-label">Genres</label><div class="g-toggles">${GENRES.map(gn=>`<button type="button" class="g-toggle${g.includes(gn)?' on':''}" onclick="this.classList.toggle('on');ADM.syncGenres()">${gn}</button>`).join('')}</div><input type="hidden" name="genres" id="genresH" value="${esc(g.join(','))}"></div>
+    <div class="ff" style="margin-top:1rem"><label class="ff-label">Featured on Homepage</label><select name="featured" class="ff-select"><option value="0"${!s?.featured?' selected':''}>No</option><option value="1"${s?.featured?' selected':''}>⭐ Yes — Show on Homepage</option></select></div>`},
+  // ─ Chapter form ─
+  chapterForm(s,ch=null){
+    const defType=s.type==='anime'?'episode':['novel','game'].includes(s.type)?'text':'images';
+    const ct=ch?.type||defType;const chNum=ch?ch.number:(s.chapters||[]).length+1;
+    const imgs=(ch?.images||[]).join('\n');
+    const typeTab=(id,icon,label)=>`<button type="button" class="ct-tab${ct===id?' on':''}" data-ct="${id}" onclick="ADM.switchChType('${id}')">${icon} ${label}</button>`;
+    let typeTabs='';
+    if(s.type==='anime'){typeTabs=typeTab('episode','📺','Episode')+typeTab('text','📝','Text')+typeTab('video','🎬','Video')+typeTab('pdf','📕','PDF')}
+    else if(['manhwa','manhua','manga','comic'].includes(s.type)){typeTabs=typeTab('images','🖼','Images')+typeTab('text','📝','Text')+typeTab('video','🎬','Video')+typeTab('pdf','📕','PDF')}
+    else if(s.type==='novel'){typeTabs=typeTab('text','📝','Text')+typeTab('pdf','📕','PDF')+typeTab('video','🎬','Video')}
+    else if(s.type==='game'){typeTabs=typeTab('text','📝','Guide Text')+typeTab('pdf','📕','PDF Guide')+typeTab('video','🎬','Video')+typeTab('images','🖼','Screenshots')}
+    return`<div class="fg">
+    <div class="ff"><label class="ff-label">${chUnit(s.type)} Number <span class="ff-req">*</span></label><input type="number" name="number" class="ff-input" value="${chNum}" min="1" required></div>
+    <div class="ff"><label class="ff-label">Title <span class="ff-req">*</span></label><input name="title" class="ff-input" value="${esc(ch?.title||'')}" required placeholder="Chapter title"></div>
+    <div class="ff"><label class="ff-label">Publish Date</label><input type="date" name="uploadDate" class="ff-input" value="${ch?.uploadDate||today()}"></div>
+    <div class="ff"><label class="ff-label">Content Format</label><div class="ct-tabs">${typeTabs}</div><input type="hidden" id="ctHidden" name="chtype" value="${ct}"></div></div>
+    <input type="hidden" name="imgData" id="imgDataH" value="">
+    <!-- IMAGES -->
+    <div id="panel_images" style="${ct==='images'?'':'display:none'}">
+      <div class="a-form-sec">Page Images</div>
+      <div style="display:flex;gap:1.2rem;align-items:flex-start">
+        <div style="flex:1">
+          <div class="ff"><label class="ff-label">Image URLs (one per line)</label><textarea id="imgUrlsTA" class="ff-textarea" rows="10" placeholder="https://example.com/page1.jpg&#10;https://example.com/page2.jpg">${esc(imgs)}</textarea></div>
+          <div class="ff-hint">Paste image URLs, or upload files below (converted to data URLs)</div>
+          <div style="margin-top:.6rem"><input type="file" id="pageFileInp" accept="image/*" multiple class="ff-input" style="padding:.4rem"></div>
+          <div class="uprog" id="upProg"><div class="uprog-bar" id="upBar"></div></div>
+        </div>
+        <div style="width:160px;flex-shrink:0">
+          <div class="ff-label" style="margin-bottom:.5rem">Preview</div>
+          <div class="img-grid" id="imgPreviewGrid">${(ch?.images||[]).map((url,i)=>`<div class="img-thumb"><img src="${esc(url)}" loading="lazy"><button type="button" class="img-thumb-del" onclick="ADM.removeImg(${i})">✕</button><span class="img-thumb-num">${i+1}</span></div>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+    <!-- TEXT -->
+    <div id="panel_text" style="${ct==='text'?'':'display:none'}">
+      <div class="a-form-sec">Chapter Text</div>
+      <div class="ff-hint" style="margin-bottom:.6rem">Use blank lines between paragraphs. Use ### for section headers.</div>
+      <textarea id="chTA" name="content" class="ff-textarea" rows="26" placeholder="Write or paste chapter content here...">${esc(ch?.content||'')}</textarea>
+      <div id="wc" style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);margin-top:.25rem">0 words</div>
+    </div>
+    <!-- EPISODE -->
+    <div id="panel_episode" style="${ct==='episode'?'':'display:none'}">
+      <div class="a-form-sec">Episode Summary</div>
+      <textarea name="summary" class="ff-textarea" rows="16" placeholder="Write a detailed episode summary...">${esc(ch?.summary||'')}</textarea>
+    </div>
+    <!-- VIDEO -->
+    <div id="panel_video" style="${ct==='video'?'':'display:none'}">
+      <div class="a-form-sec">Video Content</div>
+      <div class="fg"><div class="ff full"><label class="ff-label">YouTube / Vimeo / Direct URL</label><input type="text" id="videoUrlInp" name="videoUrl" class="ff-input" value="${esc(ch?.videoUrl||'')}" placeholder="https://www.youtube.com/watch?v=... or https://vimeo.com/..."><div class="ff-hint">Paste a YouTube, Vimeo, or direct .mp4 URL. Embeds automatically.</div></div>
+      <div class="ff full"><label class="ff-label">Preview</label><div id="videoPrevBox" style="width:100%;aspect-ratio:16/9;background:var(--s2);border-radius:var(--r);overflow:hidden;border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem">${ch?.videoUrl?`<iframe src="${esc(ytembed(ch.videoUrl))}" allowfullscreen style="width:100%;height:100%;border:none"></iframe>`:'Enter a URL above to preview'}</div></div>
+      <div class="ff full"><label class="ff-label">Description</label><textarea name="videoDesc" class="ff-textarea" rows="4" placeholder="Brief description of this video...">${esc(ch?.videoDesc||'')}</textarea></div>
+      <div class="ff full"><label class="ff-label">— OR Upload Video File (small files only) —</label><input type="file" accept="video/*" class="ff-input" style="padding:.4rem" onchange="ADM.handleVideoFile(this)"><div class="ff-hint">⚠️ Videos can be large. Recommend using a URL for anything over 20MB.</div><input type="hidden" name="videoData" id="videoDataH" value="${esc(ch?.videoData||'')}"><div id="videoFileStatus" style="${ch?.videoData?.startsWith('idb:')?'margin-top:.4rem':'display:none'}"><div style="background:var(--manga-d);border:1px solid rgba(56,189,248,.3);border-radius:4px;padding:.5rem 1rem;font-size:.8rem;color:var(--manga)">✓ Video stored in browser database.</div></div></div></div>
+    </div>
+    <!-- PDF -->
+    <div id="panel_pdf" style="${ct==='pdf'?'':'display:none'}">
+      <div class="a-form-sec">PDF Document</div>
+      <div class="fg"><div class="ff full"><label class="ff-label">PDF URL (recommended for large files)</label><input name="pdfUrl" class="ff-input" value="${esc(ch?.pdfUrl||'')}" placeholder="https://example.com/chapter.pdf"></div>
+      <div class="ff full"><label class="ff-label">— OR Upload PDF File —</label><input type="file" id="pdfFileInp" accept=".pdf,application/pdf" class="ff-input" style="padding:.4rem"><div class="ff-hint">Max recommended: 15MB. Stored as data URL.</div><input type="hidden" name="pdfData" id="pdfDataHidden" value="${esc(ch?.pdfData||'')}"></div>
+      <div class="ff full" id="pdfPrev" style="${(ch?.pdfUrl||(ch?.pdfData&&!ch?.pdfData.startsWith('idb:')))?'':'display:none'}"><label class="ff-label">Preview</label><div class="pdf-frame-wrap" style="height:280px"><iframe src="${esc(ch?.pdfUrl||(ch?.pdfData?.startsWith('idb:')?'':ch?.pdfData)||'')}" style="width:100%;height:100%;border:none"></iframe></div></div><div class="ff full" style="${ch?.pdfData?.startsWith('idb:')?'':'display:none'}"><div style="background:var(--novel-d);border:1px solid rgba(52,211,153,.3);border-radius:4px;padding:.6rem 1rem;font-size:.82rem;color:var(--novel)">✓ PDF file stored in browser database. Preview available when reading.</div></div></div>
+    </div>`
+  },
+  removeImg(i){const ta=document.getElementById('imgUrlsTA');if(!ta)return;const lines=ta.value.split('\n').filter(Boolean);lines.splice(i,1);ta.value=lines.join('\n');toast('Image removed','i')},
+  async handleVideoFile(inp){
+    const f=inp.files[0];if(!f)return;
+    toast('Storing video in browser database…','i');
+    try{
+      const key=await IDB.storeFile(f,'video');
+      const h=document.getElementById('videoDataH');if(h)h.value='idb:'+key;
+      toast('Video ready ✓ (stored in browser database)','s');
+    }catch(e){toast('Video error: '+e.message,'e')}
+  },
+  // ─ PAGE RENDERERS ─
+  pgDashboard(){
+    const st=DB.stats(),recent=DB.all().slice(0,5),ms=MEDIA.stats();
+    const typeBar=Object.entries(st.byType).map(([t,n])=>{const m=TM[t];const pct=st.total?Math.max(8,Math.round(n/st.total*100)):8;return`<div class="a-bar" style="height:${pct}%;--bc:${m.c}" title="${m.l}: ${n}"><div class="a-bar-lbl">${m.e}</div><div class="a-bar-val">${m.l}: ${n}</div></div>`}).join('');
+    return`<div class="apg-head"><div><div class="apg-title">Dashboard</div><div class="apg-sub">Welcome back, ${esc(AUTH.sess()?.username)}</div></div><div class="apg-actions"><button class="btn btn-primary btn-sm" onclick="ADM.goto('addseries')">+ Add Series</button></div></div>
+    <div class="a-stat-grid">
+      <div class="a-stat" style="--sc:var(--anime)"><div class="a-stat-icon">📚</div><div class="a-stat-num">${st.total}</div><div class="a-stat-lbl">Total Series</div><div class="a-stat-sub">↑ Growing</div></div>
+      <div class="a-stat" style="--sc:var(--manga)"><div class="a-stat-icon">📄</div><div class="a-stat-num">${fmtN(st.chapters)}</div><div class="a-stat-lbl">Chapters</div></div>
+      <div class="a-stat" style="--sc:var(--gold)"><div class="a-stat-icon">👁️</div><div class="a-stat-num">${fmtN(st.views)}</div><div class="a-stat-lbl">Total Views</div></div>
+      <div class="a-stat" style="--sc:var(--novel)"><div class="a-stat-icon">🗂️</div><div class="a-stat-num">${ms.total}</div><div class="a-stat-lbl">Media Files</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem">
+      <div class="a-chart"><div class="a-chart-hd"><span class="a-chart-title">Content by Type</span></div><div class="a-bars">${typeBar}</div></div>
+      <div class="a-chart"><div class="a-chart-hd"><span class="a-chart-title">Quick Actions</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;padding:.4rem 0">
+          <div onclick="ADM.goto('addseries')" style="background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem;cursor:pointer;text-align:center;transition:var(--tr)" onmouseenter="this.style.borderColor='var(--anime)'" onmouseleave="this.style.borderColor='var(--bdr)'"><div style="font-size:1.5rem;margin-bottom:.4rem">➕</div><div style="font-weight:800;font-size:.82rem">Add Series</div></div>
+          <div onclick="ADM.goto('media')" style="background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem;cursor:pointer;text-align:center;transition:var(--tr)" onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='var(--bdr)'"><div style="font-size:1.5rem;margin-bottom:.4rem">🗂️</div><div style="font-weight:800;font-size:.82rem">Media Library</div></div>
+          <div onclick="ADM.goto('analytics')" style="background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem;cursor:pointer;text-align:center;transition:var(--tr)" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--bdr)'"><div style="font-size:1.5rem;margin-bottom:.4rem">📈</div><div style="font-weight:800;font-size:.82rem">Analytics</div></div>
+          ${AUTH.isSuper()?`<div onclick="ADM.goto('team')" style="background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem;cursor:pointer;text-align:center;transition:var(--tr)" onmouseenter="this.style.borderColor='var(--novel)'" onmouseleave="this.style.borderColor='var(--bdr)'"><div style="font-size:1.5rem;margin-bottom:.4rem">👥</div><div style="font-weight:800;font-size:.82rem">Team</div></div>`:`<div onclick="ADM.goto('chapters')" style="background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem;cursor:pointer;text-align:center;transition:var(--tr)" onmouseenter="this.style.borderColor='var(--novel)'" onmouseleave="this.style.borderColor='var(--bdr)'"><div style="font-size:1.5rem;margin-bottom:.4rem">📄</div><div style="font-weight:800;font-size:.82rem">Chapters</div></div>`}
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem"><h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.05em">Recent Series</h3><button class="see-all" onclick="ADM.goto('series')">View All →</button></div>
+    <div class="a-table-wrap"><table class="a-table"><thead><tr><th>Title</th><th>Type</th><th>Status</th><th>Chs</th><th>Views</th><th>Updated</th><th>Actions</th></tr></thead><tbody>${recent.map(s=>this.sRowSimple(s)).join('')}</tbody></table></div>`
+  },
+  pgSeries(){
+    let all=DB.all();if(ST.admSearch){const q=ST.admSearch.toLowerCase();all=all.filter(s=>s.title.toLowerCase().includes(q)||s.author.toLowerCase().includes(q))}
+    return`<div class="apg-head"><div><div class="apg-title">Library</div><div class="apg-sub">${all.length} series</div></div><div class="apg-actions">${ST.selSeries.size?`<button class="btn btn-danger btn-sm" onclick="ADM.bulkDelete()">Delete ${ST.selSeries.size}</button>`:''} ${AUTH.canEdit()?`<button class="btn btn-primary btn-sm" onclick="ADM.goto('addseries')">+ Add Series</button>`:''}</div></div>
+    <div class="bulk-bar${ST.selSeries.size?' show':''}" id="bulkBar"><span class="bulk-cnt">${ST.selSeries.size} selected</span><button class="btn btn-danger btn-xs" onclick="ADM.bulkDelete()">Delete</button><button class="btn btn-ghost btn-xs" onclick="ST.selSeries.clear();ADM.loadPage('series')">Clear</button></div>
+    <div class="a-table-wrap"><table class="a-table"><thead><tr><th><input type="checkbox" class="acb" onchange="ADM.toggleSelectAll(this.checked)"></th><th></th><th>Title</th><th>Type</th><th>Status</th><th>Ft</th><th>Chs</th><th>Views</th><th>Updated</th><th>Actions</th></tr></thead><tbody>${all.length?all.map(s=>this.sRow(s)).join(''):`<tr><td colspan="10" style="text-align:center;padding:3rem;color:var(--muted)">No series found.</td></tr>`}</tbody></table></div>`
+  },
+  pgEditSeries(id){
+    const s=id?DB.get(id):null;const mode=s?'edit':'add';
+    return`<div class="apg-head"><div><div class="apg-title">${s?'Edit Series':'Add New Series'}</div><div class="apg-sub">${s?esc(s.title):'Fill in the details below'}</div></div><div class="apg-actions">${s?`<button class="btn btn-ghost btn-sm" onclick="ADM.goto('seriesChs',{sid:'${s.id}'})">📄 Chapters</button>`:''}<button class="btn btn-ghost btn-sm" onclick="ADM.goto('series')">← Library</button></div></div>
+    <div class="a-form"><form id="aSeriesForm" data-mode="${mode}" ${s?`data-id="${s.id}"`:''}>${this.seriesForm(s)}<div class="form-acts"><button type="submit" class="btn btn-primary">✓ ${s?'Save Changes':'Publish Series'}</button><button type="button" class="btn btn-ghost" onclick="ADM.goto('series')">Cancel</button>${s?`<button type="button" class="btn btn-danger btn-sm" style="margin-left:auto" onclick="ADM.delSeries('${s.id}')">Delete Series</button>`:''}</div></form></div>`
+  },
+  submitSeries(e){
+    e.preventDefault();const form=e.target;const fd=new FormData(form);
+    const genres=(fd.get('genres')||'').split(',').filter(Boolean);
+    const data={title:(fd.get('title')||'').trim(),author:(fd.get('author')||'').trim(),artist:(fd.get('artist')||'').trim(),year:parseInt(fd.get('year'))||new Date().getFullYear(),type:fd.get('type'),status:fd.get('status'),rating:parseFloat(fd.get('rating'))||8.5,ratingCount:parseInt(fd.get('ratingCount'))||0,description:(fd.get('description')||'').trim(),cover:(fd.get('cover')||'').trim(),genres,featured:fd.get('featured')==='1'};
+    if(!data.title||!data.author||!data.description){toast('Fill all required fields','e');return}
+    if(form.dataset.mode==='add'){const id=uid();DB.add({...data,id,views:0,chapters:[],createdAt:today(),updatedAt:today()});logAct('series_created',`Added: ${data.title}`,AUTH.sess()?.username);toast(`"${data.title}" published!`,'s');this.goto('seriesChs',{sid:id});render()}
+    else{DB.update(form.dataset.id,data);logAct('series_updated',`Updated: ${data.title}`,AUTH.sess()?.username);toast('Saved','s');this.goto('editseries',{id:form.dataset.id});render()}
+  },
+  pgChapters(){const all=DB.all();return`<div class="apg-head"><div><div class="apg-title">Chapters</div><div class="apg-sub">All series chapter management</div></div></div><div class="a-table-wrap"><table class="a-table"><thead><tr><th>Series</th><th>Type</th><th>Count</th><th>Updated</th><th>Actions</th></tr></thead><tbody>${all.map(s=>`<tr><td><div style="display:flex;align-items:center;gap:.6rem"><div class="a-mini-cover">${s.cover?`<img src="${esc(s.cover)}" alt="">`:`<span style="background:${grad(s.id)};width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:rgba(255,255,255,.2)">${s.title[0]}</span>`}</div><div><div class="tcell-title">${esc(s.title)}</div><div class="tcell-sub">${esc(s.author)}</div></div></div></td><td><span class="sc-type-tag ${typeBadge(s.type)}" style="position:static">${s.type}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${(s.chapters||[]).length} ${chLabel(s.type).toLowerCase()}</td><td style="font-size:.76rem;color:var(--muted)">${fmtD(s.updatedAt)}</td><td><div class="tbl-acts"><button class="ta prim" onclick="ADM.goto('addchapter',{sid:'${s.id}'})">+ Add</button><button class="ta" onclick="ADM.goto('seriesChs',{sid:'${s.id}'})">Manage</button></div></td></tr>`).join('')}</tbody></table></div>`},
+  pgSeriesChs(sid){
+    const s=DB.get(sid);if(!s)return this.pgChapters();
+    const chs=[...(s.chapters||[])].sort((a,b)=>a.number-b.number);const u=chUnit(s.type);
+    return`<div class="apg-head"><div><div class="apg-title">${esc(s.title)}</div><div class="apg-sub">${chLabel(s.type)} · ${chs.length} total</div></div><div class="apg-actions"><button class="btn btn-primary btn-sm" onclick="ADM.goto('addchapter',{sid:'${sid}'})">+ Add ${u}</button><button class="btn btn-ghost btn-sm" onclick="ADM.goto('editseries',{id:'${sid}'})">← Edit Series</button></div></div>
+    <div class="a-table-wrap"><table class="a-table"><thead><tr><th>#</th><th>Title</th><th>Format</th><th>Content</th><th>Views</th><th>Date</th><th>Actions</th></tr></thead><tbody>${chs.length?chs.map(ch=>`<tr><td style="font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--anime)">${u}${ch.number}</td><td><div class="tcell-title">${esc(ch.title)}</div></td><td><span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;background:var(--s2);padding:.14rem .38rem;border-radius:3px;color:var(--muted)">${ch.type||'images'}</span></td><td style="font-size:.76rem;color:var(--muted)">${ch.type==='text'?(ch.content||'').split(/\s+/).filter(Boolean).length+' wds':ch.type==='episode'?(ch.summary||'').split(/\s+/).filter(Boolean).length+' wds':ch.type==='video'?'📹 Video':ch.type==='pdf'?'📕 PDF':(ch.images||[]).length+' imgs'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${fmtN(ch.views||0)}</td><td style="font-size:.76rem;color:var(--muted)">${fmtD(ch.uploadDate)}</td><td><div class="tbl-acts"><button class="ta" onclick="ADM.close();navigate('reader',{sid:'${sid}',cid:'${ch.id}'})">👁</button><button class="ta edit" onclick="ADM.goto('editchapter',{sid:'${sid}',cid:'${ch.id}'})">Edit</button><button class="ta del" onclick="ADM.delChapter('${sid}','${ch.id}')">Del</button></div></td></tr>`).join(''):`<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--muted)">No ${chLabel(s.type).toLowerCase()} yet. <button onclick="ADM.goto('addchapter',{sid:'${sid}'})" style="color:var(--anime);background:none;border:none;cursor:pointer;font-weight:700">Add first →</button></td></tr>`}</tbody></table></div>`
+  },
+  pgEditChapter(sid,cid){
+    const s=DB.get(sid);if(!s)return this.pgChapters();const ch=cid?DB.getCh(sid,cid):null;const u=chUnit(s.type);
+    return`<div class="apg-head"><div><div class="apg-title">${ch?`Edit ${u}${ch.number}`:`Add ${u}`}</div><div class="apg-sub">${esc(s.title)}</div></div><button class="btn btn-ghost btn-sm" onclick="ADM.goto('seriesChs',{sid:'${sid}'})">← Chapters</button></div>
+    <div class="a-form"><form id="aChForm" data-mode="${ch?'edit':'add'}" data-sid="${sid}" ${ch?`data-cid="${ch.id}"`:''}>${this.chapterForm(s,ch)}<div class="form-acts"><button type="submit" class="btn btn-primary">✓ ${ch?'Save Changes':'Publish'}</button><button type="button" class="btn btn-ghost" onclick="ADM.goto('seriesChs',{sid:'${sid}'})">Cancel</button></div></form></div>`
+  },
+  submitChapter(e){
+    e.preventDefault();const form=e.target;const fd=new FormData(form);
+    const sid=form.dataset.sid,cid=form.dataset.cid;
+    const ct=document.getElementById('ctHidden')?.value||'images';
+    const ch={number:parseInt(fd.get('number'))||1,title:(fd.get('title')||'').trim(),uploadDate:fd.get('uploadDate')||today(),type:ct,views:0};
+    if(!ch.title){toast('Title required','e');return}
+    if(ct==='images'){const ta=document.getElementById('imgUrlsTA');ch.images=(ta?ta.value:(fd.get('imgData')||'')).split('\n').map(l=>l.trim()).filter(Boolean)}
+    else if(ct==='text'){ch.content=(fd.get('content')||'').trim()}
+    else if(ct==='episode'){ch.summary=(fd.get('summary')||'').trim()}
+    else if(ct==='video'){ch.videoUrl=(fd.get('videoUrl')||'').trim();ch.videoDesc=(fd.get('videoDesc')||'').trim();ch.videoData=(fd.get('videoData')||'').trim()}
+    else if(ct==='pdf'){ch.pdfUrl=(fd.get('pdfUrl')||'').trim();ch.pdfData=(fd.get('pdfData')||'').trim()}
+    const s=DB.get(sid);
+    if(form.dataset.mode==='add'){DB.addCh(sid,{...ch,id:uid()});logAct('ch_created',`Added ${chUnit(s?.type)}${ch.number} to ${s?.title}`,AUTH.sess()?.username);toast(`${chUnit(s?.type||'manhwa')}${ch.number} published!`,'s');this.goto('seriesChs',{sid})}
+    else{DB.updateCh(sid,cid,ch);logAct('ch_updated',`Updated chapter in ${s?.title}`,AUTH.sess()?.username);toast('Saved','s');this.goto('seriesChs',{sid})}
+    render()
+  },
+  pgMedia(){
+    const filter=ST.admMediaFilter;let items=MEDIA.byType(filter);if(ST.admSearch){const q=ST.admSearch.toLowerCase();items=items.filter(m=>(m.name||'').toLowerCase().includes(q))}
+    const ms=MEDIA.stats();
+    return`<div class="apg-head"><div><div class="apg-title">Media Library</div><div class="apg-sub">${ms.total} files · ${ms.images} images · ${ms.videos} videos · ${ms.pdfs} PDFs</div></div>
+    <div class="apg-actions"><label class="btn btn-primary btn-sm" style="cursor:pointer">📤 Upload<input type="file" id="mediaUpInp" accept="image/*,video/*,.pdf,audio/*,application/pdf,.txt,.doc,.docx" multiple style="display:none"></label></div></div>
+    <div class="media-ftab">${['all','image','video','pdf','audio','other'].map(t=>`<button class="mf${filter===t?' on':''}" onclick="ST.admMediaFilter='${t}';ADM.loadPage('media')">${{all:'All',image:'🖼 Images',video:'🎬 Video',pdf:'📕 PDF',audio:'🎵 Audio',other:'📁 Other'}[t]}</button>`).join('')}</div>
+    ${items.length?`<div class="media-grid">${items.map(m=>`<div class="media-card"><div class="media-thumb">${m.mediaType==='image'&&(m.thumb||m.data)?`<img src="${esc(m.thumb||m.data||'')}" alt="" onerror="this.parentElement.innerHTML='🖼'">`:{video:'🎬',pdf:'📕',audio:'🎵',other:'📁'}[m.mediaType]||'📁'}</div><button class="media-del" onclick="ADM.delMedia('${m.id}')">✕</button><div class="media-info"><div class="media-name" title="${esc(m.name||'')}">${esc(m.name||'Unnamed')}</div><div class="media-type">${m.mediaType||'file'} · ${m.size?Math.round(m.size/1024)+'KB':''}</div></div></div>`).join('')}</div>`:`<div class="empty-state"><div class="empty-icon">🗂️</div><div class="empty-title">No Media Yet</div><p class="empty-desc">Upload images, videos, PDFs, audio and more using the Upload button above.</p></div>`}`
+  },
+  pgAnalytics(){
+    const all=DB.all().sort((a,b)=>(b.views||0)-(a.views||0));const top=all.slice(0,10);const maxV=top[0]?.views||1;
+    return`<div class="apg-head"><div><div class="apg-title">Analytics</div><div class="apg-sub">Content performance overview</div></div></div>
+    <div class="a-stat-grid">
+      <div class="a-stat" style="--sc:var(--gold)"><div class="a-stat-icon">👁️</div><div class="a-stat-num">${fmtN(all.reduce((n,s)=>n+(s.views||0),0))}</div><div class="a-stat-lbl">Total Views</div></div>
+      <div class="a-stat" style="--sc:var(--novel)"><div class="a-stat-icon">📚</div><div class="a-stat-num">${all.length}</div><div class="a-stat-lbl">Series</div></div>
+      <div class="a-stat" style="--sc:var(--manga)"><div class="a-stat-icon">⭐</div><div class="a-stat-num">${all.filter(s=>s.featured).length}</div><div class="a-stat-lbl">Featured</div></div>
+      <div class="a-stat" style="--sc:var(--accent)"><div class="a-stat-icon">📄</div><div class="a-stat-num">${fmtN(all.reduce((n,s)=>n+(s.chapters||[]).length,0))}</div><div class="a-stat-lbl">Chapters</div></div>
+    </div>
+    <div class="a-chart" style="margin-bottom:1.5rem"><div class="a-chart-hd"><span class="a-chart-title">Top ${top.length} Most Viewed Series</span></div>
+      <div style="display:flex;flex-direction:column;gap:.6rem;padding:.4rem 0">${top.map((s,i)=>{const pct=Math.round((s.views||0)/maxV*100);return`<div style="display:flex;align-items:center;gap:.8rem"><span style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:${i<3?'var(--gold)':'var(--muted)'};width:1.5rem;flex-shrink:0;text-align:right">${i+1}</span><span style="font-size:.84rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(s.title)}</span><div style="width:200px;height:8px;background:var(--s2);border-radius:4px;overflow:hidden;flex-shrink:0"><div style="height:100%;width:${pct}%;background:${TM[s.type]?.c||'var(--anime)'};border-radius:4px;transition:width .4s"></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);width:4rem;text-align:right;flex-shrink:0">${fmtN(s.views||0)}</span></div>`}).join('')}</div>
+    </div>
+    <div class="a-table-wrap"><table class="a-table"><thead><tr><th>#</th><th>Title</th><th>Type</th><th>Views</th><th>Rating</th><th>Chs</th><th>Status</th></tr></thead><tbody>${top.map((s,i)=>`<tr><td style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:${i<3?'var(--gold)':'var(--muted)'}">${i+1}</td><td><div class="tcell-title">${esc(s.title)}</div><div class="tcell-sub">${esc(s.author)}</div></td><td><span class="sc-type-tag ${typeBadge(s.type)}" style="position:static">${s.type}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:.8rem">${fmtN(s.views||0)}</td><td style="color:var(--gold);font-weight:700">★ ${s.rating}</td><td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">${(s.chapters||[]).length}</td><td><span class="sc-status ${statusCls(s.status)}" style="position:static">${s.status}</span></td></tr>`).join('')}</tbody></table></div>`
+  },
+  pgActivity(){
+    const logs=S.g('actlog')||[];const icons={login:'🔑',logout:'🚪',series_created:'✨',series_updated:'✏️',ch_created:'📝',ch_deleted:'🗑️',delete:'🗑️',admin_add:'👤',admin_rem:'🚫',role_chg:'🎭',system:'⚙️'};
+    return`<div class="apg-head"><div><div class="apg-title">Activity Log</div><div class="apg-sub">Last ${logs.length} actions</div></div>${AUTH.isSuper()?`<div class="apg-actions"><button class="btn btn-danger btn-sm" onclick="if(confirm('Clear log?')){S.d('actlog');ADM.loadPage('activity');toast('Log cleared','i')}">Clear</button></div>`:''}</div>
+    <div class="a-chart">${logs.length?`<div>${logs.map(l=>`<div class="act-item"><div class="act-icon">${icons[l.action]||'📋'}</div><div class="act-info"><div class="act-desc">${esc(l.detail||l.action)}</div><div class="act-meta"><span style="color:var(--accent)">${esc(l.user)}</span><span>${ago(l.ts)}</span></div></div></div>`).join('')}</div>`:
+    '<div style="text-align:center;padding:3rem;color:var(--muted)">No activity recorded yet.</div>'}</div>`
+  },
+  pgTeam(){
+    if(!AUTH.isSuper())return`<div style="padding:2rem;color:var(--anime)">Super Admin access required.</div>`;
+    const admins=AUTH.admins();
+    return`<div class="apg-head"><div><div class="apg-title">Team Management</div><div class="apg-sub">Appoint and manage admin users</div></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:1.5rem;align-items:start">
+      <div>
+        <div class="a-form-sec">Current Team</div>
+        <div class="team-card" style="border-color:rgba(251,191,36,.2)"><div class="team-avatar" style="background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.3);color:var(--gold)">S</div><div class="team-info"><div class="team-name">SuperAdmin</div><div><span class="rtag rtag-super">SUPER</span></div><div class="team-meta">Master account · Always active</div></div></div>
+        ${admins.length?admins.map(a=>`<div class="team-card" id="tc-${a.id}"><div class="team-avatar" style="background:${a.role==='EDITOR'?'var(--accent-d)':'var(--novel-d)'};border-color:${a.role==='EDITOR'?'rgba(139,92,246,.3)':'rgba(52,211,153,.3)'};color:${a.role==='EDITOR'?'var(--accent)':'var(--novel)'}; border:2px solid">${(a.username||'?')[0].toUpperCase()}</div><div class="team-info"><div class="team-name">${esc(a.username)}</div><div style="display:flex;align-items:center;gap:.4rem;margin-top:.25rem"><select class="ff-select" style="padding:.15rem .45rem;font-size:.7rem" onchange="AUTH.updateRole('${a.id}',this.value);ADM.loadPage('team')"><option value="EDITOR"${a.role==='EDITOR'?' selected':''}>Editor</option><option value="UPLOADER"${a.role==='UPLOADER'?' selected':''}>Uploader</option></select></div><div class="team-meta">Added ${fmtD(a.createdAt)}</div></div><div style="display:flex;flex-direction:column;gap:.3rem;align-items:flex-end"><div style="width:8px;height:8px;border-radius:50%;background:${a.active!==false?'var(--novel)':'var(--muted)'}"></div><div style="display:flex;gap:.3rem;margin-top:.3rem"><button class="ta" onclick="AUTH.toggleAdmin('${a.id}');ADM.loadPage('team')">${a.active===false?'Enable':'Disable'}</button><button class="ta del" onclick="ADM.removeAdmin('${a.id}')">Remove</button></div></div></div>`).join(''):
+        `<div style="color:var(--muted);font-size:.85rem;padding:1rem 0">No sub-admins added yet.</div>`}
+      </div>
+      <div>
+        <div class="a-form-sec">Appoint New Admin</div>
+        <div class="a-form" style="max-width:100%"><form id="aAddAdminForm">
+          <div class="ff" style="margin-bottom:.85rem"><label class="ff-label">Username <span class="ff-req">*</span></label><input name="username" class="ff-input" required placeholder="Choose a username" autocomplete="off"></div>
+          <div class="ff" style="margin-bottom:.85rem"><label class="ff-label">Password <span class="ff-req">*</span></label><input type="password" name="password" class="ff-input" required placeholder="Set a password (min 6 chars)" minlength="6" autocomplete="new-password"></div>
+          <div class="ff" style="margin-bottom:1.2rem"><label class="ff-label">Role</label><select name="role" class="ff-select"><option value="EDITOR">✏️ Editor — Full content management</option><option value="UPLOADER">📤 Uploader — Add chapters only</option></select>
+            <div class="ff-hint" style="margin-top:.5rem"><strong style="color:var(--novel)">Uploader:</strong> Can add chapters and upload media. Cannot manage series or settings.<br><strong style="color:var(--accent)">Editor:</strong> Full content management. Cannot manage admins or settings.</div>
+          </div>
+          <button type="submit" class="btn btn-success" style="width:100%;justify-content:center">👤 Appoint Admin</button>
+        </form></div>
+        <div class="a-form-sec" style="margin-top:1.5rem">Role Permissions</div>
+        <div style="background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden"><table class="a-table"><thead><tr><th>Permission</th><th style="color:var(--gold)">Super</th><th style="color:var(--accent)">Editor</th><th style="color:var(--novel)">Uploader</th></tr></thead><tbody>${[['View dashboard','✓','✓','✓'],['Upload media','✓','✓','✓'],['Add chapters','✓','✓','✓'],['Add/edit series','✓','✓','—'],['Delete content','✓','✓','—'],['Manage team','✓','—','—'],['Settings & backup','✓','—','—']].map(row=>`<tr>${row.map((c,i)=>`<td style="font-size:.82rem;color:${i>0&&c==='✓'?'var(--novel)':i>0?'var(--muted)':'var(--txt)'}">${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+      </div>
+    </div>`
+  },
+  submitAdmin(e){e.preventDefault();const fd=new FormData(e.target);const r=AUTH.addAdmin(fd.get('username'),fd.get('password'),fd.get('role'));if(r.ok){toast(`Admin "${fd.get('username')}" appointed`,'s');this.goto('team')}else toast(r.err,'e')},
+  pgSettings(){
+    if(!AUTH.isSuper())return`<div style="padding:2rem;color:var(--anime)">Super Admin only.</div>`;
+    const st=DB.stats(),ms=MEDIA.stats();
+    return`<div class="apg-head"><div><div class="apg-title">Settings</div><div class="apg-sub">Site configuration & data management</div></div></div>
+    <div class="sett-grid">
+      <div class="sett-card"><div class="sett-title">🔒 Change Password</div><div class="sett-desc">Change your sub-admin account password. The master password cannot be changed here.</div>
+        <form id="aPwForm"><div class="ff" style="margin-bottom:.8rem"><label class="ff-label">Current Password</label><input type="password" name="cur" class="ff-input" required placeholder="Current password"></div><div class="ff" style="margin-bottom:.8rem"><label class="ff-label">New Password</label><input type="password" name="nw" class="ff-input" required minlength="6" placeholder="New password"></div><div class="ff" style="margin-bottom:1rem"><label class="ff-label">Confirm New Password</label><input type="password" name="cf" class="ff-input" required placeholder="Confirm new password"></div><button type="submit" class="btn btn-primary btn-sm">Update Password</button></form>
+      </div>
+      <div class="sett-card"><div class="sett-title">📊 Database Info</div><div class="sett-desc">Current content and storage stats.</div>
+        <div class="tog-row"><div class="tog-label">Series</div><strong>${st.total}</strong></div>
+        <div class="tog-row"><div class="tog-label">Chapters</div><strong>${fmtN(st.chapters)}</strong></div>
+        <div class="tog-row"><div class="tog-label">Total Views</div><strong>${fmtN(st.views)}</strong></div>
+        <div class="tog-row"><div class="tog-label">Media Files</div><strong>${ms.total}</strong></div>
+        <div class="tog-row"><div class="tog-label">Admin Users</div><strong>${AUTH.admins().length+1}</strong></div>
+      <div class="tog-row"><div class="tog-label">LS Used (text)</div><strong id="lsUsed">…</strong></div>
+      </div>
+      <div class="sett-card"><div class="sett-title">📤 Export / Import</div><div class="sett-desc">Backup and restore your complete series and chapter data as JSON.</div>
+        <div style="display:flex;flex-direction:column;gap:.6rem"><button class="btn btn-ghost btn-sm" onclick="ADM.exportData()">📦 Export All Data (JSON)</button><label class="btn btn-ghost btn-sm" style="cursor:pointer">📥 Import Data (JSON)<input type="file" accept=".json" style="display:none" onchange="ADM.importData(this)"></label></div>
+        <div class="ff-hint" style="margin-top:.8rem">Export creates a full JSON backup. Does not include large media file data.</div>
+      </div>
+      <div class="sett-card danger"><div class="sett-title">⚠️ Danger Zone</div><div class="sett-desc">These actions are permanent and cannot be undone.</div>
+        <div style="display:flex;flex-direction:column;gap:.6rem"><button class="btn btn-danger btn-sm" onclick="ADM.resetData()">🔄 Reset to Default Seed Data</button><button class="btn btn-danger btn-sm" onclick="ADM.clearMedia()">🗑️ Clear All Media Files</button><button class="btn btn-danger btn-sm" onclick="ADM.nukeAll()">💀 Wipe Everything</button></div>
+      </div>
+    </div>`
+  },
+  submitPw(e){e.preventDefault();const fd=new FormData(e.target);const sess=AUTH.sess();if(sess.master){toast('Master password cannot be changed here','e');return}const a=AUTH.admins().find(a=>a.id===sess.id);if(!a||fd.get('cur')!==a.password){toast('Wrong current password','e');return}if(fd.get('nw')!==fd.get('cf')){toast('Passwords do not match','e');return}if(fd.get('nw').length<6){toast('Minimum 6 characters','e');return}AUTH.updatePw(sess.id,fd.get('nw'));toast('Password updated','s');e.target.reset()},
+  exportData(){const d={series:DB.all(),admins:AUTH.admins().map(a=>({...a,password:'[HIDDEN]'})),exported:new Date().toISOString(),ver:'4.0.0'};const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`acgn-backup-${today()}.json`;a.click();toast('Export complete','s')},
+  importData(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);if(!d.series||!Array.isArray(d.series)){toast('Invalid format','e');return}if(!confirm(`Import ${d.series.length} series? This overwrites current data.`))return;DB.save(d.series);S.s('seeded',1);toast(`Imported ${d.series.length} series`,'s');this.goto('dashboard');render()}catch{toast('Failed to parse file','e')}};r.readAsText(f)},
+  resetData(){if(!confirm('Reset all series to default seed data? Current data will be lost.'))return;S.d('seeded');S.d('series');initDB();toast('Data reset to defaults','i');this.goto('dashboard');render()},
+  async clearMedia(){if(!confirm('Delete ALL media files?'))return;await MEDIA.clearAll();toast('Media cleared','i');this.goto('media')},
+  async nukeAll(){if(!confirm('⚠️ Delete EVERYTHING — all series, chapters, media, and admin accounts?'))return;if(!confirm('Final confirmation: this cannot be undone.'))return;['series','bm','hist','ratings','sess','admins','media','actlog','seeded'].forEach(k=>S.d(k));try{await IDB.clear()}catch{}toast('All data wiped','i');ADM.logout()},
+};
+
+/* ══════════════════════════════════════════
+   MAIN SITE RENDERS
+══════════════════════════════════════════ */
+function cvr(s){if(s.cover)return`<img src="${esc(s.cover)}" alt="${esc(s.title)}" loading="lazy" onerror="this.style.display='none'"><div class="sc-cover-ph" style="display:none;background:${grad(s.id)}"><div class="ph-title">${esc(s.title)}</div></div>`;return`<div class="sc-cover-ph" style="background:${grad(s.id)}"><div class="ph-title">${esc(s.title)}</div></div>`}
+function sCard(s){const chs=s.chapters||[];return`<div class="sc" onclick="navigate('series',{id:'${s.id}'})"><div class="sc-cover">${cvr(s)}<span class="sc-type-tag ${typeBadge(s.type)}" style="position:absolute">${s.type}</span><span class="sc-status ${statusCls(s.status)}" style="position:absolute">${s.status}</span><div class="sc-cover-overlay"></div></div><div class="sc-body"><div class="sc-title">${esc(s.title)}</div><div class="sc-meta"><span class="sc-rating">★ ${s.rating}</span><span>${fmtN(chs.length)} ${chLabel(s.type).toLowerCase()}</span></div></div></div>`}
+function navHTML(){const bmc=USER.bms().length;return`<nav id="mainNav"><div class="nav-inner"><div class="nav-logo" onclick="navigate('home')">ACGN<span class="dot">.</span><sub>universe</sub></div><div class="nav-pills">${TYPES.map(t=>`<button class="nav-pill${ST.fType===t?' active':''}" data-t="${t}" onclick="setType('${t}')">${t==='all'?'All':TM[t]?.l||t}</button>`).join('')}</div><div class="nav-right"><div class="nav-sb"><span class="si">🔍</span><input id="navSI" type="text" placeholder="Search..." value="${esc(ST.search)}" autocomplete="off"></div><button class="nav-btn" onclick="navigate('bookmarks')" title="My Library">${bmc>0?`📚<span class="badge">${bmc}</span>`:'📚'}</button><button class="nav-btn" onclick="navigate('history')" title="History">🕐</button><button class="nav-btn" onclick="ADM.open()" title="Admin">⚙</button></div></div></nav>`}
+function footerHTML(){return`<footer class="site-footer"><div class="container"><div class="footer-grid"><div><div class="footer-logo">ACG<span>N</span></div><p class="footer-desc">Your complete universe of Anime, Comics, Games and Novels. Zero ads, real reading experience.</p><div class="footer-type-row">${Object.entries(TM).map(([t,m])=>`<span class="ft-badge" style="background:${m.d};color:${m.c}">${m.e} ${m.l}</span>`).join('')}</div></div><div class="footer-col"><div class="footer-col-t">Browse</div><ul>${Object.entries(TM).map(([t,m])=>`<li><button onclick="setType('${t}');navigate('browse')">${m.e} ${m.l}</button></li>`).join('')}</ul></div><div class="footer-col"><div class="footer-col-t">Genres</div><ul>${['Action','Fantasy','Romance','Horror','Sci-Fi','Isekai','Cultivation','Mystery'].map(g=>`<li><button onclick="ST.fGenre='${g}';navigate('browse')">${g}</button></li>`).join('')}</ul></div><div class="footer-col"><div class="footer-col-t">Account</div><ul><li><button onclick="navigate('bookmarks')">📚 My Library</button></li><li><button onclick="navigate('history')">🕐 History</button></li><li><button onclick="ADM.open()">⚙ Admin Panel</button></li></ul></div></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} ACGN Universe</span><span>v4.0.0 · No Ads · Production Ready</span></div></div></footer>`}
+
+function homeView(){
+  const all=DB.all();const featured=all.filter(s=>s.featured);const hero=featured[0]||all[0];
+  const trending=[...all].sort((a,b)=>(b.views||0)-(a.views||0)).slice(0,10);
+  const newest=[...all].sort((a,b)=>new Date(b.updatedAt||0)-new Date(a.updatedAt||0)).slice(0,10);
+  const hist=USER.hist().slice(0,8);
+  const histItems=hist.map(h=>{const s=DB.get(h.sid),ch=s?DB.getCh(h.sid,h.cid):null;if(!s||!ch)return'';return`<div class="cont-item" onclick="navigate('reader',{sid:'${s.id}',cid:'${ch.id}'})"><div class="cont-thumb">${s.cover?`<img src="${esc(s.cover)}" alt="">`:`<span style="background:${grad(s.id)};width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:rgba(255,255,255,.2)">${s.title[0]}</span>`}</div><div><div class="cont-t">${esc(s.title)}</div><div class="cont-c">${chUnit(s.type)}${ch.number}: ${esc(ch.title)}</div></div></div>`}).filter(Boolean).join('');
+  const typeCards=Object.entries(TM).map(([t,m])=>{const cnt=all.filter(s=>s.type===t).length;return`<div class="type-card" style="--tc-c:${m.c};--tc-bg:${m.d}" onclick="setType('${t}');navigate('browse')"><div class="type-card-icon">${m.e}</div><div class="type-card-name">${m.l}</div><div class="type-card-count">${cnt} titles</div></div>`}).join('');
+  const genres=[{n:'Action',e:'⚔️'},{n:'Fantasy',e:'🔮'},{n:'Romance',e:'💘'},{n:'Horror',e:'💀'},{n:'Sci-Fi',e:'🚀'},{n:'Isekai',e:'🌀'},{n:'Cultivation',e:'☯️'},{n:'Adventure',e:'🗺️'},{n:'Comedy',e:'😂'},{n:'Mystery',e:'🕵️'},{n:'Dark Fantasy',e:'🌑'},{n:'Mecha',e:'🤖'}];
+  return`${navHTML()}<div class="page-wrap">
+  <section class="hero"><div class="hero-bg"><div class="hero-bg-base"></div><div class="hero-orb hero-orb1"></div><div class="hero-orb hero-orb2"></div><div class="hero-orb hero-orb3"></div><div class="hero-lines"></div></div>
+    <div class="hero-content"><div>
+      <div class="hero-eyebrow">New titles updated daily</div>
+      <h1 class="hero-title"><span class="l1">YOUR</span><span class="l2">UNIVERSE</span><span class="l3">AWAITS</span></h1>
+      <p class="hero-desc">Anime · Comics · Games · Novels — the complete ACGN experience with real chapters, zero ads, seven content types.</p>
+      <div class="hero-ctas"><button class="btn btn-primary btn-lg" onclick="navigate('browse')">🔥 Start Exploring</button><button class="btn btn-ghost btn-lg" onclick="setType('novel');navigate('browse')">📖 Read Novels</button></div>
+      <div class="hero-stats"><div><div class="hstat-num">${fmtN(all.length)}</div><div class="hstat-lbl">Series</div></div><div><div class="hstat-num">${fmtN(all.reduce((n,s)=>n+(s.chapters||[]).length,0))}</div><div class="hstat-lbl">Chapters</div></div><div><div class="hstat-num">7</div><div class="hstat-lbl">Types</div></div><div><div class="hstat-num">0</div><div class="hstat-lbl">Ads</div></div></div>
+    </div><div class="hero-right"><div class="type-showcase">${typeCards}</div></div></div>
+  </section>
+  <div class="marquee-wrap"><div class="marquee-track">${[...all,...all].map(s=>`<span class="marquee-item">${esc(s.title)}</span>`).join('')}</div></div>
+  ${histItems?`<div class="container" style="padding-top:2.5rem"><div class="cont-strip"><div class="cont-label">▶ Continue Reading</div><div class="cont-list">${histItems}</div></div></div>`:''}
+  ${hero?`<section class="section"><div class="container"><div class="sec-head"><div><div class="sec-tag">Featured</div><h2 class="sec-title">Editor's Spotlight</h2></div><button class="see-all" onclick="navigate('browse')">All →</button></div>
+    <div class="spotlight" onclick="navigate('series',{id:'${hero.id}'})" style="cursor:pointer"><div class="spotlight-cover" style="background:${grad(hero.id)}">${hero.cover?`<img class="spotlight-cover-img" src="${esc(hero.cover)}" alt="">`:`<div class="spotlight-cover-ph">${esc(hero.title)}</div>`}<div class="spotlight-overlay"></div></div>
+      <div class="spotlight-body"><div class="spotlight-eyebrow">Featured · ${TM[hero.type]?.e||''} ${(TM[hero.type]?.l||'').toUpperCase()}</div><div class="spotlight-title">${esc(hero.title)}</div><p class="spotlight-desc">${esc(hero.description.slice(0,240))}${hero.description.length>240?'...':''}</p>
+      <div class="spotlight-stats"><div><div class="sstat-val">${fmtN(hero.views||0)}</div><div class="sstat-lbl">Views</div></div><div><div class="sstat-val">★ ${hero.rating}</div><div class="sstat-lbl">Rating</div></div><div><div class="sstat-val">${(hero.chapters||[]).length}</div><div class="sstat-lbl">${chLabel(hero.type)}</div></div></div>
+      <div class="genre-chips">${(hero.genres||[]).map(g=>`<span class="genre-chip">${g}</span>`).join('')}</div>
+      <button class="btn btn-primary btn-lg">▶ Read Now</button></div></div>
+  </div></section>`:''}
+  <section class="section"><div class="container"><div class="sec-head"><div><div class="sec-tag">Trending</div><h2 class="sec-title">Hot Right Now</h2></div><button class="see-all" onclick="ST.fSort='popular';navigate('browse')">All →</button></div><div class="grid-auto">${trending.map(sCard).join('')}</div></div></section>
+  <section class="section section-alt"><div class="container"><div class="sec-head"><div><div class="sec-tag">Fresh</div><h2 class="sec-title">Latest Updates</h2></div></div><div class="grid-auto">${newest.map(sCard).join('')}</div></div></section>
+  <section class="section"><div class="container"><div class="sec-head"><div><div class="sec-tag">Genres</div><h2 class="sec-title">Browse by Genre</h2></div></div>
+    <div class="genre-grid">${genres.map(g=>{const cnt=all.filter(s=>(s.genres||[]).includes(g.n)).length;return`<button class="genre-btn" onclick="ST.fGenre='${g.n}';navigate('browse')"><span class="genre-em">${g.e}</span><span class="genre-nm">${g.n}</span><span class="genre-ct">${cnt}</span></button>`}).join('')}</div>
+  </div></section>${footerHTML()}</div>`
+}
+
+function browseView(){
+  let res=DB.search(ST.search,{type:ST.fType,genre:ST.fGenre,status:ST.fStatus});
+  if(ST.fSort==='popular')res.sort((a,b)=>(b.views||0)-(a.views||0));else if(ST.fSort==='rating')res.sort((a,b)=>(b.rating||0)-(a.rating||0));else if(ST.fSort==='newest')res.sort((a,b)=>new Date(b.updatedAt||0)-new Date(a.updatedAt||0));else if(ST.fSort==='alpha')res.sort((a,b)=>a.title.localeCompare(b.title));
+  return`${navHTML()}<div class="page-wrap"><section class="section"><div class="container">
+    <div class="sec-head"><div><div class="sec-tag">Library</div><h1 class="sec-title">${esc(ST.fType==='all'?'All Series':TM[ST.fType]?.l||ST.fType)}</h1></div></div>
+    <div class="filter-bar"><span class="f-label">Type</span><div class="f-chips">${TYPES.map(t=>`<button class="f-chip${ST.fType===t?' active':''}" onclick="setType('${t}')">${t==='all'?'All':TM[t]?.l||t}</button>`).join('')}</div>
+    <div class="f-divider"></div><span class="f-label">Genre</span><select class="f-select" onchange="ST.fGenre=this.value;render()"><option value="all">All Genres</option>${GENRES.map(g=>`<option value="${g}"${ST.fGenre===g?' selected':''}>${g}</option>`).join('')}</select>
+    <div class="f-divider"></div><span class="f-label">Status</span><select class="f-select" onchange="ST.fStatus=this.value;render()"><option value="all">All</option><option value="ongoing"${ST.fStatus==='ongoing'?' selected':''}>Ongoing</option><option value="completed"${ST.fStatus==='completed'?' selected':''}>Completed</option><option value="hiatus"${ST.fStatus==='hiatus'?' selected':''}>Hiatus</option></select>
+    <div class="f-divider"></div><span class="f-label">Sort</span><select class="f-select" onchange="ST.fSort=this.value;render()"><option value="popular"${ST.fSort==='popular'?' selected':''}>Most Popular</option><option value="rating"${ST.fSort==='rating'?' selected':''}>Highest Rated</option><option value="newest"${ST.fSort==='newest'?' selected':''}>Newest</option><option value="alpha"${ST.fSort==='alpha'?' selected':''}>A–Z</option></select>
+    <span class="r-count">${res.length} results</span></div>
+    ${res.length?`<div class="grid-auto-lg">${res.map(sCard).join('')}</div>`:`<div class="empty-state"><div class="empty-icon">🔍</div><h3 class="empty-title">No Results</h3><p class="empty-desc">Try different filters.</p><button class="btn btn-primary" onclick="ST.fType='all';ST.fGenre='all';ST.fStatus='all';ST.search='';render()">Clear Filters</button></div>`}
+  </div></section>${footerHTML()}</div>`
+}
+
+function seriesView(id){
+  const s=DB.get(id);if(!s)return`${navHTML()}<div class="page-wrap section container"><div class="empty-state"><div class="empty-icon">😔</div><h3 class="empty-title">Series Not Found</h3><button class="btn btn-primary" onclick="navigate('home')">Home</button></div></div>`;
+  const bm=USER.isBm(id),ur=USER.getRating(id);
+  const chs=[...(s.chapters||[])];if(ST.chSort==='desc')chs.reverse();
+  const hist=USER.hist();const unit=chUnit(s.type);
+  const lastRead=hist.find(h=>h.sid===id);
+  const firstCh=s.chapters?.length?s.chapters[0]:null;
+  const lastReadCh=lastRead?(DB.getCh(id,USER.hist().find(h=>h.sid===id)?.cid)||firstCh):firstCh;
+  return`${navHTML()}<div class="page-wrap">
+  <div class="detail-hero"><div class="detail-bg-blur" style="background:${grad(s.id)}"></div>
+    <div class="container"><div class="detail-inner" style="padding-bottom:0">
+      <div>
+        <div class="detail-cover">${s.cover?`<img src="${esc(s.cover)}" alt="${esc(s.title)}" onerror="this.style.display='none'">`:`<div class="detail-cover-ph" style="background:${grad(s.id)}">${s.title[0]}</div>`}</div>
+        <div style="margin-top:1rem;background:var(--s2);border:1px solid var(--bdr);border-radius:var(--r);padding:1rem">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:.5rem">Your Rating</div>
+          <div class="stars-wrap" id="starsWrap">${[1,2,3,4,5,6,7,8,9,10].map(i=>`<span class="star${ur>=i?' on':''}" onclick="USER.rate('${s.id}',${i});document.querySelectorAll('#starsWrap .star').forEach((st,j)=>st.classList.toggle('on',j<${i}))">★</span>`).join('')}</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:.4rem">Avg: <strong style="color:var(--gold)">★ ${s.rating}</strong></div>
+        </div>
+      </div>
+      <div>
+        <div class="detail-breadcrumb"><button class="bc-btn" onclick="navigate('home')">Home</button><span class="bc-sep">›</span><button class="bc-btn" onclick="ST.fType='${s.type}';navigate('browse')">${TM[s.type]?.l||s.type}</button><span class="bc-sep">›</span><span>${esc(s.title)}</span></div>
+        <div class="detail-tags"><span class="sc-type-tag ${typeBadge(s.type)}" style="position:static">${s.type}</span><span class="sc-status ${statusCls(s.status)}" style="position:static">${s.status}</span>${s.featured?'<span class="dtag" style="color:var(--gold);border-color:rgba(251,191,36,.3)">⭐ Featured</span>':''}</div>
+        <h1 class="detail-title">${esc(s.title)}</h1>
+        <div class="detail-meta"><span>By <strong>${esc(s.author)}</strong></span>${s.artist&&s.artist!==s.author?`<span>Art <strong>${esc(s.artist)}</strong></span>`:''}<span>${s.year||''}</span><span>★ <strong>${s.rating}</strong> (${fmtN(s.ratingCount||0)} votes)</span></div>
+        <p class="detail-desc">${esc(s.description)}</p>
+        <div class="genre-chips">${(s.genres||[]).map(g=>`<span class="genre-chip" onclick="ST.fGenre='${g}';navigate('browse')" style="cursor:pointer">${g}</span>`).join('')}</div>
+        <div class="detail-actions">
+          ${(firstCh||lastReadCh)?`<button class="btn btn-primary btn-lg" onclick="navigate('reader',{sid:'${s.id}',cid:'${(lastReadCh||firstCh).id}'})">▶ ${lastRead?'Continue':'Start'} Reading</button>`:''}
+          <button class="btn-bm${bm?' on':''}" id="bmBtn" onclick="USER.toggleBm('${s.id}');document.getElementById('bmBtn').classList.toggle('on')">${bm?'★ In Library':'☆ Add to Library'}</button>
+        </div>
+        <div class="detail-stats"><div><div class="ds-num">${fmtN(s.views||0)}</div><div class="ds-lbl">Views</div></div><div><div class="ds-num">${(s.chapters||[]).length}</div><div class="ds-lbl">${chLabel(s.type)}</div></div><div><div class="ds-num">★ ${s.rating}</div><div class="ds-lbl">Rating</div></div><div><div class="ds-num" style="color:${statusCls(s.status)==='s-ongoing'?'var(--novel)':statusCls(s.status)==='s-completed'?'var(--manga)':'var(--manhua)'}">${s.status}</div><div class="ds-lbl">Status</div></div></div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="container section" style="padding-top:3rem">
+    <div class="ch-list-hd"><div class="ch-list-title">${chLabel(s.type)} <span style="color:var(--muted);font-size:1.2rem">(${chs.length})</span></div><select class="ch-sort" onchange="ST.chSort=this.value;render()"><option value="asc"${ST.chSort==='asc'?' selected':''}>Oldest First</option><option value="desc"${ST.chSort==='desc'?' selected':''}>Newest First</option></select></div>
+    ${chs.length?chs.map(ch=>{const wasRead=USER.hist().some(h=>h.sid===id&&h.cid===ch.id);return`<div class="ch-item${wasRead?' ch-read':''}" onclick="navigate('reader',{sid:'${s.id}',cid:'${ch.id}'})"><div class="ch-num">${unit}${ch.number}</div><div class="ch-info"><div class="ch-t">${esc(ch.title)}</div><div class="ch-d">${fmtD(ch.uploadDate)}</div></div><div class="ch-v">${fmtN(ch.views||0)} views</div>${wasRead?'<span class="ch-read-tag">Read</span>':''}</div>`}).join(''):`<div class="empty-state" style="padding:3rem"><div class="empty-icon">${TM[s.type]?.e||'📚'}</div><h3 class="empty-title">No ${chLabel(s.type)} Yet</h3><p class="empty-desc">Check back soon for updates.</p></div>`}
+  </div>${footerHTML()}</div>`
+}
+
+async function readerView(sid,cid){
+  const s=DB.get(sid),ch=DB.getCh(sid,cid);
+  if(!s||!ch)return`${navHTML()}<div class="page-wrap section container"><div class="empty-state"><div class="empty-icon">📭</div><h3 class="empty-title">Chapter Not Found</h3><button class="btn btn-primary" onclick="navigate('series',{id:'${sid}'})">Back to Series</button></div></div>`;
+  DB.incViews(sid,cid);USER.addHist(sid,cid);
+  const chs=s.chapters||[];const ci=chs.findIndex(c=>c.id===cid);const prev=chs[ci-1],next=chs[ci+1];const unit=chUnit(s.type);
+  const prevId=prev?prev.id:null,nextId=next?next.id:null;
+  const topBar=`<div class="reader-topbar"><button class="reader-back" onclick="navigate('series',{id:'${sid}'})">← ${esc(s.title)}</button><div class="reader-title"><div class="reader-series-lbl">${esc(s.title)}</div><div class="reader-ch-lbl">${unit}${ch.number}: ${esc(ch.title)}</div></div><div class="reader-ch-nav"><button class="rnav-btn" ${!prevId?'disabled':''} onclick="${prevId?`navigate('reader',{sid:'${sid}',cid:'${prevId}'})`:''}" >← Prev</button><span class="rnav-info">${ci+1}/${chs.length}</span><button class="rnav-btn" ${!nextId?'disabled':''} onclick="${nextId?`navigate('reader',{sid:'${sid}',cid:'${nextId}'})`:''}" >Next →</button></div></div>`;
+  const botBar=`<div class="reader-bottom"><button class="btn btn-ghost btn-sm" onclick="navigate('series',{id:'${sid}'})" style="margin-right:1rem">📚 All Chapters</button>${prevId?`<button class="rnav-btn" onclick="navigate('reader',{sid:'${sid}',cid:'${prevId}'})">← ${unit}${prev.number}</button>`:'<button class="rnav-btn" disabled>← Prev</button>'}<span class="rnav-info" style="color:var(--txt);font-size:.75rem">${unit}${ch.number} of ${chs.length}</span>${nextId?`<button class="rnav-btn" onclick="navigate('reader',{sid:'${sid}',cid:'${nextId}'})">${unit}${next.number} →</button>`:'<button class="rnav-btn" disabled>Next →</button>'}</div>`;
+  const ct=ch.type||'images';
+
+  // ── Resolve IDB keys to blob URLs ──
+  async function resolveIdb(val){
+    if(!val)return null;
+    if(typeof val==='string'&&val.startsWith('idb:')){
+      return await IDB.blobUrl(val.slice(4));
+    }
+    return val; // already a URL or dataURL
+  }
+
+  if(ct==='video'){
+    const videoSrc=await resolveIdb(ch.videoData)||await resolveIdb(ch.videoUrl)||ch.videoUrl;
+    const embed=ytembed(videoSrc||'');
+    const player=ch.videoData||videoSrc?.startsWith('blob:')?
+      `<video controls src="${esc(videoSrc||'')}" style="width:100%;height:100%"></video>`:
+      embed?`<iframe src="${esc(embed)}" allowfullscreen style="width:100%;height:100%;border:none"></iframe>`:
+      `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted)">No video provided</div>`;
+    return`${navHTML()}<div class="page-wrap">${topBar}<div class="video-viewer"><div class="video-embed-wrap">${player}</div>${ch.videoDesc?`<p style="color:var(--muted);font-size:.92rem;line-height:1.7;margin-top:1rem">${esc(ch.videoDesc)}</p>`:''}</div>${botBar}</div>`;
+  }
+  if(ct==='pdf'){
+    const src=await resolveIdb(ch.pdfData)||ch.pdfUrl||null;
+    return`${navHTML()}<div class="page-wrap">${topBar}<div class="pdf-viewer"><div class="pdf-frame-wrap">${src?`<iframe src="${esc(src)}" style="width:100%;height:100%;border:none"></iframe>`:`<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:.9rem">No PDF provided</div>`}</div></div>${botBar}</div>`;
+  }
+  if(ct==='text'){
+    const paras=(ch.content||'').split('\n\n').filter(Boolean).map(p=>p.startsWith('###')?`<h3>${esc(p.slice(3).trim())}</h3>`:`<p>${esc(p)}</p>`).join('');
+    const isg=s.type==='game';
+    return`${navHTML()}<div class="page-wrap">${topBar}${isg?`<div class="guide-shell"><div class="guide-text"><div class="novel-ch-num">Part ${ch.number}</div><div class="novel-ch-title">${esc(ch.title)}</div><div class="novel-divider">· · ·</div>${paras}</div></div>`:`<div class="novel-shell"><div class="novel-toolbar"><button class="nf-btn" onclick="ST.fontSize=Math.max(14,ST.fontSize-1);document.querySelector('.novel-text').style.fontSize=ST.fontSize+'px'" title="Smaller">A-</button><button class="nf-btn" onclick="ST.fontSize=Math.min(24,ST.fontSize+1);document.querySelector('.novel-text').style.fontSize=ST.fontSize+'px'" title="Larger">A+</button></div><div class="novel-ch-num">Chapter ${ch.number}</div><div class="novel-ch-title">${esc(ch.title)}</div><div class="novel-divider">· · ·</div><div class="novel-text" style="font-size:${ST.fontSize}px">${paras}</div></div>`}${botBar}</div>`;
+  }
+  if(ct==='episode'){
+    const paras=(ch.summary||'').split('\n\n').filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('');
+    return`${navHTML()}<div class="page-wrap">${topBar}<div class="ep-viewer"><div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.25em;color:var(--anime);text-transform:uppercase;margin-bottom:.5rem">Episode ${ch.number}</div><div class="novel-ch-title" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.04em;margin-bottom:1.5rem">${esc(ch.title)}</div><div class="ep-synopsis">${paras||'<p style="color:var(--muted)">No summary available.</p>'}</div></div>${botBar}</div>`;
+  }
+  // images (default)
+  const imgs=ch.images||[];
+  const pages=imgs.length?imgs.map((url,i)=>`<img src="${esc(url)}" alt="Page ${i+1}" loading="lazy" style="width:100%;display:block;margin:0 auto" onerror="this.style.display='none'">`).join(''):
+    Array.from({length:8},(_,i)=>`<div class="comic-ph"><div class="pg-n">0${i+1}</div><div class="pg-l">Page ${i+1} — Upload Images in Admin</div></div>`).join('');
+  return`${navHTML()}<div class="page-wrap">${topBar}<div class="comic-scroll">${pages}</div>${botBar}</div>`;
+}
+
+
+function bookmarksView(){
+  const bms=USER.bms(),series=bms.map(id=>DB.get(id)).filter(Boolean);
+  return`${navHTML()}<div class="page-wrap"><section class="section"><div class="container"><div class="sec-head"><div><div class="sec-tag">Your Collection</div><h1 class="sec-title">My Library</h1></div><span style="color:var(--muted);font-size:.84rem">${series.length} saved</span></div>${series.length?`<div class="grid-auto-lg">${series.map(sCard).join('')}</div>`:`<div class="empty-state"><div class="empty-icon">📚</div><h3 class="empty-title">Library is Empty</h3><p class="empty-desc">Bookmark series while browsing to save them here.</p><button class="btn btn-primary" onclick="navigate('browse')">Explore →</button></div>`}</div></section>${footerHTML()}</div>`
+}
+
+function historyView(){
+  const hist=USER.hist().slice(0,60);
+  const items=hist.map(h=>{const s=DB.get(h.sid),ch=s?DB.getCh(h.sid,h.cid):null;if(!s||!ch)return'';return`<div class="ch-item" onclick="navigate('reader',{sid:'${s.id}',cid:'${ch.id}'})"><div class="cont-thumb" style="width:34px;height:46px;border-radius:3px;overflow:hidden;background:var(--s3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:rgba(255,255,255,.2);flex-shrink:0">${s.cover?`<img src="${esc(s.cover)}" alt="" style="width:100%;height:100%;object-fit:cover">`:'📖'}</div><div class="ch-info"><div class="ch-t">${esc(s.title)} — ${chUnit(s.type)}${ch.number}: ${esc(ch.title)}</div><div class="ch-d">${ago(h.t)}</div></div><span class="sc-type-tag ${typeBadge(s.type)}" style="position:static">${s.type}</span></div>`}).filter(Boolean).join('');
+  return`${navHTML()}<div class="page-wrap"><section class="section"><div class="container"><div class="sec-head"><div><div class="sec-tag">History</div><h1 class="sec-title">Reading History</h1></div>${hist.length?`<button class="see-all" onclick="if(confirm('Clear history?')){S.d('hist');render()}">Clear All</button>`:''}</div>${items||`<div class="empty-state"><div class="empty-icon">🕐</div><h3 class="empty-title">No History Yet</h3><p class="empty-desc">Start reading to see your history here.</p><button class="btn btn-primary" onclick="navigate('browse')">Browse →</button></div>`}</div></section>${footerHTML()}</div>`
+}
+
+/* ── ROUTER ── */
+function navigate(view,params={}){ST.view=view;ST.params={...params};if(view==='home')window.scrollTo(0,0);render()}
+function setType(t){ST.fType=t;navigate('browse')}
+async function render(){
+  const app=document.getElementById('app');if(!app)return;
+  let html='';
+  try{
+    if(ST.view==='reader'){
+      // Show loading state instantly, then resolve async reader
+      app.innerHTML=`${navHTML()}<div class="page-wrap" style="padding-top:calc(var(--nav-h)+80px);text-align:center;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em">LOADING CHAPTER…</div>`;
+      const fab=document.getElementById('adminFAB');if(fab)fab.classList.toggle('hidden',!AUTH.ok());
+      html=await readerView(ST.params.sid,ST.params.cid);
+    } else if(ST.view==='home')html=homeView();
+    else if(ST.view==='browse')html=browseView();
+    else if(ST.view==='series')html=seriesView(ST.params.id);
+    else if(ST.view==='bookmarks')html=bookmarksView();
+    else if(ST.view==='history')html=historyView();
+    else html=homeView();
+  }catch(e){html=`<div style="padding:3rem;color:var(--anime);font-family:monospace">Error: ${esc(e.message)}</div>`}
+  app.innerHTML=html;
+  // Bind nav search
+  const ni=document.getElementById('navSI');
+  if(ni){ni.oninput=deb(e=>{ST.search=e.target.value;if(ST.search){navigate('browse')}else render()},300);ni.addEventListener('keydown',e=>{if(e.key==='Escape'){ST.search='';ni.value='';render()}})}
+  // Show FAB if logged in
+  const fab=document.getElementById('adminFAB');if(fab)fab.classList.toggle('hidden',!AUTH.ok());
+}
+
+/* ── INIT ── */
+window.addEventListener('load',()=>{initDB();render();document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('adminOverlay')?.classList.contains('open'))ADM.close()})});
+</script>
+</body>
+</html>
